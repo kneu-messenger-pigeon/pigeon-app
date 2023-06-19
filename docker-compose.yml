@@ -105,6 +105,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   secondary-db-lessons-importer:
     image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer:main
@@ -117,6 +119,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   secondary-db-scores-importer:
     image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer:main
@@ -129,6 +133,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   ### END section - secondary db importer ###
 
   realtime-importer:
