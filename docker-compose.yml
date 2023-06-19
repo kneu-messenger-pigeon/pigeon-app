@@ -1,0 +1,269 @@
+version: "3.9"
+
+services:
+  ### START section - kafka and related ##
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.8-debian-11
+    restart: always
+    networks:
+      - pigeon
+    volumes:
+      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "unset" , "JMX_PORT" ,";" ,"kafka-topics.sh","--zookeeper","zookeeper:2181","--list" ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    image: docker.io/bitnami/kafka:3.4-debian-11
+    restart: always
+    networks:
+      - pigeon
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_ENABLE_KRAFT=no
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092,EXTERNAL://:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:29092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 65s
+
+  init-kafka:
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka:main
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+    restart: on-failure
+    depends_on:
+      kafka:
+        condition: service_started
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8892:8080"
+    networks:
+      - pigeon
+    restart: unless-stopped
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    depends_on:
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "nc", "-vz", "localhost", "8080"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+  ### END section - kafka and related ##
+
+  secondary-db-watcher:
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher:main
+    restart: always
+    volumes:
+      - "secondary-db-watcher-storage:/storage"
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+      - PAUSE_AFTER_SUCCESS=600
+      - PAUSE_AFTER_ERROR=60
+      - ERROR_COUNT_TO_BREAK=3
+    depends_on:
+      kafka:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ### START section - secondary db importer ###
+  secondary-db-disciplines-importer:
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  secondary-db-lessons-importer:
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  secondary-db-scores-importer:
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+    depends_on:
+      kafka:
+        condition: service_healthy
+  ### END section - secondary db importer ###
+
+  realtime-importer:
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer:main
+    restart: always
+    networks:
+      - pigeon
+    volumes:
+      - "realtime-importer-storage:/storage"
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - PRIMARY_DEKANAT_DB_DSN=${PRIMARY_DEKANAT_DB_DSN}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
+      - AWS_REGION=${AWS_REGION}
+      - STORAGE_DIR=/storage
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  ### START section - score storage ###
+  score-storage-redis:
+    image: redis:7.0.11-alpine3.18
+    restart: always
+    volumes:
+      - score-storage-redis:/data
+    networks:
+      - pigeon
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  storage-writer:
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - REDIS_DSN=redis://score-storage-redis:6379
+    depends_on:
+      kafka:
+        condition: service_healthy
+      score-storage-redis:
+        condition: service_healthy
+
+  score-storage-api:
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - REDIS_DSN=redis://score-storage-redis:6379
+      - LISTEN=:80
+    depends_on:
+      score-storage-redis:
+        condition: service_healthy
+  ### END section - score storage ###
+
+  authorizer:
+    image: ghcr.io/kneu-messenger-pigeon/authorizer:main
+    restart: always
+    ports:
+      - "8890:80"
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - LISTEN=:80
+      - PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
+      - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
+      - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
+      - APP_SECRET=${APP_SECRET}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+
+  ### START section - telegram app ###
+  telegram-app-redis:
+    image: redis:7.0.11-alpine3.18
+    restart: always
+    volumes:
+      - telegram-app-redis:/data
+    networks:
+      - pigeon
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  telegram-app:
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app:main
+    restart: always
+    networks:
+      - pigeon
+    environment:
+      - KAFKA_HOST=kafka:9092
+      - APP_SECRET=${APP_SECRET}
+      - REDIS_DSN=redis://telegram-app-redis:6379
+      - SCORE_STORAGE_API_HOST=http://score-storage-api
+      - AUTHORIZER_HOST=http://authorizer
+      - COMMIT_THRESHOLD=1000
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=${TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES}
+    depends_on:
+      kafka:
+        condition: service_healthy
+      telegram-app-redis:
+        condition: service_healthy
+  ### END section - telegram app ###
+
+volumes:
+  secondary-db-watcher-storage:
+    driver: local
+
+  realtime-importer-storage:
+    driver: local
+
+  score-storage-redis:
+    driver: local
+
+  telegram-app-redis:
+    driver: local
+
+  zookeeper_data:
+    driver: local
+  kafka_data:
+    driver: local
+
+networks:
+  pigeon:
+    driver: bridge
