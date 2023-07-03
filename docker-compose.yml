@@ -83,6 +83,7 @@ services:
       - pigeon
     environment:
       - KAFKA_HOST=kafka:9092
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
       - PAUSE_AFTER_SUCCESS=600
       - PAUSE_AFTER_ERROR=60
