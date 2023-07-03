@@ -55,7 +55,6 @@ services:
 
   kafka-ui:
     image: provectuslabs/kafka-ui
-    container_name: kafka-ui
     ports:
       - "8892:8080"
     networks:
