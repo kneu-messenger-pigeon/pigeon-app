@@ -29,6 +29,6 @@ function extractImagesDigests()
 $COMPOSE down
 $COMPOSE pull
 
-rm docker-composes.digests.yml
-extractImagesDigests > docker-composes.digests.yml
-$COMPOSE -f docker-composes.digests.yml config > docker-compose.prod.yml
+rm -f docker-compose.digests.yml
+extractImagesDigests > docker-compose.digests.yml
+$COMPOSE -f docker-compose.digests.yml config > docker-compose.prod.yml

@@ -6,7 +6,7 @@ git fetch
 
 git pull
 
-COMPOSE="docker compose -f docker-compose.base.yml"
+COMPOSE="docker compose -f docker-compose.prod.yml"
 
 $COMPOSE pull
 $COMPOSE build
