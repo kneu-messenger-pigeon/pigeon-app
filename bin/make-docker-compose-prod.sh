@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 set -e
-COMPOSE="docker compose -f docker-compose.base.yml"
+export INFISICAL_TOKEN=none
+
+COMPOSE="docker compose -f docker-compose.base.yml --env-file /dev/null"
 
 function extractImagesDigests()
 {
@@ -31,4 +33,4 @@ $COMPOSE pull
 
 rm -f docker-compose.digests.yml
 extractImagesDigests > docker-compose.digests.yml
-$COMPOSE -f docker-compose.digests.yml config > docker-compose.prod.yml
+$COMPOSE -f docker-compose.digests.yml config --no-interpolate > docker-compose.prod.yml
