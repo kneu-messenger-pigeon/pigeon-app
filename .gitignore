@@ -1,3 +1,4 @@
 .env
 storage.txt
 docker-compose.digests.yml
+docker-compose.yml
