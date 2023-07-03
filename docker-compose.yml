@@ -82,9 +82,9 @@ services:
     networks:
       - pigeon
     environment:
-      - KAFKA_HOST=kafka:9092
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+      - KAFKA_HOST=kafka:9092
+#      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
       - PAUSE_AFTER_SUCCESS=600
       - PAUSE_AFTER_ERROR=60
       - ERROR_COUNT_TO_BREAK=3
@@ -101,8 +101,9 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+#      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
       kafka:
         condition: service_healthy
@@ -115,8 +116,9 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+#      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
       kafka:
         condition: service_healthy
@@ -129,8 +131,9 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
+#      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
       kafka:
         condition: service_healthy
@@ -146,13 +149,13 @@ services:
     volumes:
       - "realtime-importer-storage:/storage"
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - PRIMARY_DEKANAT_DB_DSN=${PRIMARY_DEKANAT_DB_DSN}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
-      - AWS_REGION=${AWS_REGION}
-      - STORAGE_DIR=/storage
+#      - PRIMARY_DEKANAT_DB_DSN=${PRIMARY_DEKANAT_DB_DSN}
+#      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+#      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+#      - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
+#      - AWS_REGION=${AWS_REGION}
     depends_on:
       kafka:
         condition: service_healthy
@@ -177,6 +180,7 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - REDIS_DSN=redis://score-storage-redis:6379
     depends_on:
@@ -191,6 +195,7 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - REDIS_DSN=redis://score-storage-redis:6379
       - LISTEN=:80
     depends_on:
@@ -206,13 +211,14 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - LISTEN=:80
-      - PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
-      - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
-      - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
-      - APP_SECRET=${APP_SECRET}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+#      - PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
+#      - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
+#      - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
+#      - APP_SECRET=${APP_SECRET}
+#      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
     depends_on:
       kafka:
         condition: service_healthy
@@ -238,14 +244,15 @@ services:
     networks:
       - pigeon
     environment:
+      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - APP_SECRET=${APP_SECRET}
       - REDIS_DSN=redis://telegram-app-redis:6379
       - SCORE_STORAGE_API_HOST=http://score-storage-api
       - AUTHORIZER_HOST=http://authorizer
       - COMMIT_THRESHOLD=1000
-      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=${TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES}
+#      - APP_SECRET=${APP_SECRET}
+#      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+#      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=${TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES}
     depends_on:
       kafka:
         condition: service_healthy
