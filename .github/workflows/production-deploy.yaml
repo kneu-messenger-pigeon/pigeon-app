@@ -36,23 +36,23 @@ jobs:
       - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
         env:
-          HTTP_ORIGIN: https://${{ github.repository_owner }}:${{ github.token }}@github.com/${{ github.repository }}
+          COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
           DIR: ${{ vars.REMOTE_PROD_DIR }}
-          REF: ${{ github.ref_name }}
         with:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: HTTP_ORIGIN,INFISICAL_TOKEN,DIR,REF
+          envs: COMPOSE_URL,INFISICAL_TOKEN,DIR,REF
           script_stop: true
           script: |
-            set -e
-            echo $DIR
-            [ -d "$DIR" ] || git clone --depth 1 -o actions-origin -b "$REF" --single-branch "$HTTP_ORIGIN" "$DIR"
-            cd "$DIR"
-            git remote | grep actions-origin && git remote remove actions-origin
-            git remote add actions-origin "$HTTP_ORIGIN"
-            git fetch
-            git checkout "$REF"
-            ./bin/run-production.sh
+            mkdir -p "$DIR" && cd "$DIR"
+            [ -f docker-compose.yml ] && docker compose down || true
+            curl --fail -s $COMPOSE_URL > docker-compose.yml
+            docker compose pull --quiet
+            docker compose build --quiet
+            docker compose down
+            docker compose up -d
+
+            sleep 5
+            curl --fail -s  http://"$(docker compose port authorizer 80)"/healthcheck
