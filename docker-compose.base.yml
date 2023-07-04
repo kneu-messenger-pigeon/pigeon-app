@@ -1,5 +1,6 @@
 version: "3.9"
 
+# TOUCH
 services:
   ### START section - kafka and related ##
   zookeeper:
