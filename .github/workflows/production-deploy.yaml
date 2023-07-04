@@ -1,4 +1,4 @@
-name: Deploy to production
+name: Deploy production
 
 on:
   workflow_dispatch:
@@ -33,7 +33,7 @@ jobs:
         with:
           config_file: client.ovpn
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
-      - name: Execute update on remote server
+      - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
         env:
           HTTP_ORIGIN: https://${{ github.repository_owner }}:${{ github.token }}@github.com/${{ github.repository }}
