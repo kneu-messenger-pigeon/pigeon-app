@@ -1,4 +1,4 @@
-name: Run integration testing and commit stable images digest
+name: "CI/CD - integration build, testing and deploy"
 
 on:
   push:
