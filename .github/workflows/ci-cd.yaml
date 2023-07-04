@@ -13,12 +13,66 @@ on:
       - image-built
 
 jobs:
-  integration-release:
-    uses: ./.github/workflows/integration-release.yaml
+  make-docker-compose-prod:
+    name: Make docker-compose.prod.yml
+    runs-on: ubuntu-latest
+    outputs:
+      change_detected: ${{ steps.detect-changes.outputs.change_detected }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: frenck/action-setup-yq@v1
+      - uses: imjasonh/setup-crane@v0.1
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
+
+      - name: Make docker-compose.prod.yml
+        run: ./bin/make-docker-compose-prod.sh
+
+      - name: Detect changes in docker-compose.prod.yml
+        id: detect-changes
+        run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" >> $GITHUB_OUTPUT || true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: docker-compose.prod.yml
+          path: docker-compose.prod.yml
+
+  integration-test:
+    needs: make-docker-compose-prod
+    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+    uses: ./.github/workflows/integration-test.yaml
     secrets: inherit
 
+  commit-docker-compose-prod:
+    name: Commit docker-compose.prod.yml
+    runs-on: ubuntu-latest
+    needs:
+      - integration-test
+      - make-docker-compose-prod
+    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: docker-compose.prod.yml
+      - name: Set current date
+        id: date
+        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
+      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+        with:
+          add: 'docker-compose.prod.yml'
+          author_name: CI/CD bot
+          committer_name: CI/CD bot
+          fetch: false
+          message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'
+
   production-deploy:
-    needs: integration-release
+    name: Deploy production
+    needs: commit-docker-compose-prod
     if: ${{ needs.integration-release.outputs.change_detected }}
     uses: ./.github/workflows/production-deploy.yaml
     secrets: inherit

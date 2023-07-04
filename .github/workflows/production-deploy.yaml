@@ -3,6 +3,13 @@ name: Deploy to production
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      OVPN_CLIENT_KEY:
+        required: true
+      SSH_KEY:
+        required: true
+      INFISICAL_TOKEN_PRODUCTION:
+        required: true
 
 concurrency:
   group: production-deploy
@@ -10,7 +17,42 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy to production
+    name: Deploy production
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Production deploy"
+      - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
+        with:
+          packages: openvpn openvpn-systemd-resolved
+          version: 1.0
+      - name: Write OVPN config
+        env:
+          OVPN_CONFIG: ${{ vars.OVPN_CONFIG }}
+        run: printf '%s\n' "$OVPN_CONFIG" > client.ovpn
+      - name: Connect to VPN
+        uses: kota65535/github-openvpn-connect-action@v2
+        with:
+          config_file: client.ovpn
+          client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+      - name: Execute update on remote server
+        uses: appleboy/ssh-action@v0.1.10
+        env:
+          HTTP_ORIGIN: https://${{ github.repository_owner }}:${{ github.token }}@github.com/${{ github.repository }}
+          INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
+          DIR: ${{ vars.REMOTE_PROD_DIR }}
+          REF: ${{ github.ref_name }}
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: HTTP_ORIGIN,INFISICAL_TOKEN,DIR,REF
+          script_stop: true
+          script: |
+            set -e
+            echo $DIR
+            [ -d "$DIR" ] || git clone --depth 1 -o actions-origin -b "$REF" --single-branch "$HTTP_ORIGIN" "$DIR"
+            cd "$DIR"
+            git remote | grep actions-origin && git remote remove actions-origin
+            git remote add actions-origin "$HTTP_ORIGIN"
+            git fetch
+            git checkout "$REF"
+            ./bin/run-production.sh
