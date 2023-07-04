@@ -1,10 +1,11 @@
 name: Run integration testing and commit stable images digest
 
 on:
-  push:
-    branches: ['main']
-    paths-ignore:
-      - docker-compose.prod.yml
+  workflow_call:
+    outputs:
+      change_detected:
+        description: "Does docker-compose.prod.yml has changes"
+        value: ${{ jobs.make-docker-compose-prod.outputs.change_detected }}
 
   workflow_dispatch:
 
@@ -30,7 +31,7 @@ jobs:
 
        - name: Detect diff in git diff --name-status  docker-compose.prod.yml
          id: detect-changes
-         run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" >> $GITHUB_OUTPUT
+         run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" || true >> $GITHUB_OUTPUT
 
        - uses: actions/upload-artifact@v3
          with:
@@ -48,10 +49,13 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: docker-compose.prod.yml
+      - name: Set current date
+        id: date
+        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
         with:
           add: 'docker-compose.prod.yml'
           author_name: CI/CD bot
           committer_name: CI/CD bot
           fetch: false
-          message: 'Updated docker-compose.prod.yml'
+          message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'

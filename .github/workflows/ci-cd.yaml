@@ -1,0 +1,18 @@
+name: Run integration testing and commit stable images digest
+
+on:
+  push:
+    branches: ['main']
+    paths-ignore:
+      - docker-compose.prod.yml
+
+  workflow_dispatch:
+
+jobs:
+  integration-release:
+    uses: ./.github/workflows/integration-release.yaml
+
+  production-deploy:
+    needs: integration-release
+    if: ${{ needs.integration-release.outputs.change_detected }}
+    uses: ./.github/workflows/production-deploy.yaml
