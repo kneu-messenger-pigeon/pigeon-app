@@ -118,7 +118,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:106adc7c6f31e498e287a5eaa0c87415e58f627dde5dd15c0ce5d79dfbce3e34
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:391a3a350f37973311543ae3c1f367b9674a973f8cba64c495a09700f51f1285
     restart: always
     networks:
       - pigeon
@@ -179,7 +179,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:5309c299596033248d8f1d15be6ed942d8498cc9091586c9d77aa8de850dde4a
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:e5974d51f438caf5592bc29a44ea26557f95b1a17283700522e25147aba08f65
     restart: always
     networks:
       - pigeon
