@@ -9,4 +9,4 @@ jobs:
     name: Deploy to production
     runs-on: ubuntu-latest
     steps:
-      - run: "Production deploy"
+      - run: echo "Production deploy"

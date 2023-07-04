@@ -14,7 +14,7 @@ do
   DIGEST=$(crane digest  --full-ref "$IMAGE")
   echo "${SERVICE} - $DIGEST"
 
-  yq e -i ".services.\"${SERVICE}\".image = \"${DIGEST}\"" "${TMP_FILE}"
+  yq -i ".services.\"${SERVICE}\".image = \"${DIGEST}\"" "${TMP_FILE}"
 done
 
 # validate updated config
