@@ -8,6 +8,10 @@ on:
 
   workflow_dispatch:
 
+  repository_dispatch:
+    types:
+      - image-built
+
 jobs:
   integration-release:
     uses: ./.github/workflows/integration-release.yaml
