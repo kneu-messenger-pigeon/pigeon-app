@@ -9,8 +9,8 @@ fi
 git pull
 
 stat docker-compose.prod.yml > /dev/null
-rm -f docker-compose.yml
-cp docker-compose.prod.yml docker-compose.yml
+
+[ -f  docker-compose.yml ] || ln -s docker-compose.prod.yml docker-compose.yml
 
 docker compose pull
 docker compose build

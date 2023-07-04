@@ -3,18 +3,21 @@ name: Run integration testing and commit stable images digest
 on:
   push:
     branches: ['main']
+    paths-ignore:
+      - docker-compose.prod.yml
 
   workflow_dispatch:
 
 jobs:
   make-docker-compose-prod:
-    name: Make docker compose prod yml
+    name: Make docker-compose.prod.yml
     runs-on: ubuntu-latest
     outputs:
       change_detected: ${{ steps.detect-changes.outputs.change_detected }}
     steps:
        - uses: actions/checkout@v3
-
+       - uses: chrisdickinson/setup-yq@latest
+       - uses: imjasonh/setup-crane@v0.1
        - name: Log in to Docker Hub
          uses: docker/login-action@v2.1.0
          with:
