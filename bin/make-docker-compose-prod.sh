@@ -8,9 +8,9 @@ rm -f ${TMP_FILE}
 cp docker-compose.base.yml "${TMP_FILE}"
 
 IMAGE_DIGESTS_REPLACE=""
-for SERVICE in $(yq '.services | keys  | .[]' "$TMP_FILE")
+for SERVICE in $(yq -e '.services | keys  | .[]' "$TMP_FILE")
 do
-  IMAGE=$(yq ".services.\"${SERVICE}\".image" "$TMP_FILE")
+  IMAGE=$(yq -e ".services.\"${SERVICE}\".image" "$TMP_FILE")
   DIGEST=$(crane digest  --full-ref "$IMAGE")
   echo "${SERVICE} - $DIGEST"
 
