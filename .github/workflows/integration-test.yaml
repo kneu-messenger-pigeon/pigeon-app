@@ -3,6 +3,11 @@ name: Integration testing
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      is-workflow-call:
+        required: false
+        type: boolean
+        default: true
     secrets:
       OVPN_CLIENT_KEY:
         required: true
@@ -24,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
-        if: ${{ github.event_name == 'workflow_call' }}
+        if: ${{ inputs.is-workflow-call }}
         with:
           name: docker-compose.prod.yml
 
