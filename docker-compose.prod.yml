@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   zookeeper:
-    image: index.docker.io/bitnami/zookeeper@sha256:1b7c881288972658c7721302111dd19fee6bfe8ea568245f35123a81531f01b4
+    image: bitnami/zookeeper@sha256:1b7c881288972658c7721302111dd19fee6bfe8ea568245f35123a81531f01b4
     restart: always
     networks:
       - pigeon
@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
   kafka:
-    image: index.docker.io/bitnami/kafka@sha256:b115471c8475bffeb9683039f276bfaae41d52c875a56407a961cf78f3d14517
+    image: bitnami/kafka@sha256:b115471c8475bffeb9683039f276bfaae41d52c875a56407a961cf78f3d14517
     restart: always
     networks:
       - pigeon
@@ -33,7 +33,7 @@ services:
     depends_on:
       - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
+      test: ["CMD", "test", "-f", "/bitnami/init-done", "&&", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -42,14 +42,17 @@ services:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:9e85374f6622a664652ba57231755679c1e8c54c55e011ae203c369e5f662602
     networks:
       - pigeon
+    volumes:
+      - "kafka_data:/bitnami"
     environment:
       - KAFKA_HOST=kafka:9092
+      - DONE_FILE=/bitnami/init-done
     restart: on-failure
     depends_on:
       kafka:
         condition: service_started
   kafka-ui:
-    image: index.docker.io/provectuslabs/kafka-ui@sha256:477d4c3d896a0deefdcccf0e08e8fb0d4258e5340d34f3c3513f75073de5835c
+    image: provectuslabs/kafka-ui@sha256:477d4c3d896a0deefdcccf0e08e8fb0d4258e5340d34f3c3513f75073de5835c
     ports:
       - "8892:8080"
     networks:
@@ -152,7 +155,7 @@ services:
         condition: service_healthy
   ### START section - score storage ###
   score-storage-redis:
-    image: index.docker.io/library/redis@sha256:121bac949fb5f623b9fa0b4e4c9fb358ffd045966e754cfa3eb9963f3af2fe3b
+    image: redis@sha256:121bac949fb5f623b9fa0b4e4c9fb358ffd045966e754cfa3eb9963f3af2fe3b
     restart: always
     volumes:
       - score-storage-redis:/data
@@ -212,7 +215,7 @@ services:
         condition: service_healthy
   ### START section - telegram app ###
   telegram-app-redis:
-    image: index.docker.io/library/redis@sha256:121bac949fb5f623b9fa0b4e4c9fb358ffd045966e754cfa3eb9963f3af2fe3b
+    image: redis@sha256:121bac949fb5f623b9fa0b4e4c9fb358ffd045966e754cfa3eb9963f3af2fe3b
     restart: always
     volumes:
       - telegram-app-redis:/data
