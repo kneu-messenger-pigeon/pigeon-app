@@ -10,6 +10,8 @@ on:
         required: true
       INFISICAL_TOKEN_PRODUCTION:
         required: true
+      CONTAINER_REGISTRY_READ_TOKEN:
+        required: true
 
 concurrency:
   group: production-deploy
@@ -25,9 +27,7 @@ jobs:
           packages: openvpn openvpn-systemd-resolved
           version: 1.0
       - name: Write OVPN config
-        env:
-          OVPN_CONFIG: ${{ vars.OVPN_CONFIG }}
-        run: printf '%s\n' "$OVPN_CONFIG" > client.ovpn
+        run: printf "${{ vars.OVPN_CONFIG }}" > client.ovpn
       - name: Connect to VPN
         uses: kota65535/github-openvpn-connect-action@v2
         with:
@@ -38,15 +38,18 @@ jobs:
         env:
           COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
-          DIR: ${{ vars.REMOTE_PROD_DIR }}
+          WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
+          DOCKER_USER: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
         with:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,INFISICAL_TOKEN,DIR,REF
+          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,REF,DOCKER_USER,DOCKER_PASSWORD
           script_stop: true
           script: |
-            mkdir -p "$DIR" && cd "$DIR"
+            grep '"ghcr.io"' ~/.docker/config.json || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
+            mkdir -p "$WORKDIR" && cd "$WORKDIR"
             [ -f docker-compose.yml ] && docker compose down || true
             curl --fail -s $COMPOSE_URL > docker-compose.yml
             docker compose pull --quiet
