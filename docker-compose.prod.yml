@@ -197,7 +197,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:87276ce1555fef66a18d593a386b36102e3500c7eead2e88f42d3baf40701de1
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:856383520962d1b9e86e1b0215dedbe33f09b00265f1104690a6aaec7cc56a38
     restart: always
     ports:
       - "8890:80"
