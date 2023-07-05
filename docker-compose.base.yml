@@ -36,7 +36,7 @@ services:
     depends_on:
       - zookeeper
     healthcheck:
-      test: ["CMD", "test", "-f", "/bitnami/init-done", "&&",  "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
+      test: ["CMD", "/bitnami/kafka/healthcheck.sh"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -50,7 +50,9 @@ services:
       - "kafka_data:/bitnami"
     environment:
       - KAFKA_HOST=kafka:9092
-      - DONE_FILE=/bitnami/init-done
+      - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
+      # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
+      - FINISH_TIMEOUT=16
     restart: on-failure
     depends_on:
       kafka:
