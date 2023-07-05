@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  kafka-ui:
+    profiles:
+      - disabled
+    ports: []
+  ### END section - secondary db importer ###
+
+  authorizer:
+    ports: []
+

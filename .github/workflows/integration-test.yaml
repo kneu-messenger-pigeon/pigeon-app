@@ -10,10 +10,12 @@ on:
         required: true
       INFISICAL_TOKEN_INTEGRATION_TEST:
         required: true
+      CONTAINER_REGISTRY_READ_TOKEN:
+        required: true
 
 concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  group: remote-server-with-openvpn-connection
+  cancel-in-progress: false
 
 jobs:
   integration-test:
@@ -21,20 +23,56 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: echo ${{ github.event_name }}
       - uses: actions/download-artifact@v3
         if: ${{ github.event_name == 'workflow_call' }}
         with:
           name: docker-compose.prod.yml
 
-      - name: Install SSH key
-        uses: shimataro/ssh-key-action@v2
+      - name: Show diff docker-compose.prod.yml
+        run: git diff docker-compose.prod.yml
+
+      - uses: frenck/action-setup-yq@v1
+      - name: Remove expose ports from docker-compose.prod.yml
+        # prevent issue "port is already allocated"
+        run: yq -i 'del(.services.*.ports)' docker-compose.prod.yml
+
+      ## Start section with VPN connections
+      - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
         with:
+          packages: openvpn openvpn-systemd-resolved
+          version: 1.0
+      - name: Write OVPN config
+        run: printf "${{ vars.OVPN_CONFIG }}" > .openvpn-client.ovpn
+      - name: Connect to VPN
+        uses: kota65535/github-openvpn-connect-action@v2
+        with:
+          config_file: .openvpn-client.ovpn
+          client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+      ## Finish  section with VPN connections
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzrci --delete  --exclude=".*" --exclude="client.key" --exclude="openvpn*"
+          remote_path: ${{ vars.REMOTE_INTEGRATION_TEST_DIR }}
+          remote_host: ${{ vars.SSH_HOST }}
+          remote_user: ${{ vars.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: Execute integration test on remote server
+        uses: appleboy/ssh-action@v0.1.10
+        env:
+          INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_INTEGRATION_TEST }}
+          WORKDIR: ${{ vars.REMOTE_INTEGRATION_TEST_DIR }}
+          DOCKER_USER: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          known_hosts: |
-            Host remote
-              HostName ${{ vars.SSH_HOST }}
-              User ${{ vars.SSH_USER }}
-              StrictHostKeyChecking no
-      - name: Run integration test
-        run: echo "Integration!"
+          envs: INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,DOCKER_COMPOSE
+          script_stop: true
+          command_timeout: 25m
+          script: |
+            grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
+            mkdir -p "$WORKDIR" && cd "$WORKDIR"
+            ./bin/run-integration-test.sh

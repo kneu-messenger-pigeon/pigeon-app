@@ -14,7 +14,7 @@ on:
         required: true
 
 concurrency:
-  group: production-deploy
+  group: remote-server-with-openvpn-connection
   cancel-in-progress: false
 
 jobs:
@@ -27,11 +27,11 @@ jobs:
           packages: openvpn openvpn-systemd-resolved
           version: 1.0
       - name: Write OVPN config
-        run: printf "${{ vars.OVPN_CONFIG }}" > client.ovpn
+        run: printf "${{ vars.OVPN_CONFIG }}" > .openvpn-client.ovpn
       - name: Connect to VPN
         uses: kota65535/github-openvpn-connect-action@v2
         with:
-          config_file: client.ovpn
+          config_file: .openvpn-client.ovpn
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
       - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
@@ -45,10 +45,10 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,REF,DOCKER_USER,DOCKER_PASSWORD
+          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD
           script_stop: true
           script: |
-            grep '"ghcr.io"' ~/.docker/config.json || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
+            grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
             [ -f docker-compose.yml ] && docker compose down || true
             curl --fail -s $COMPOSE_URL > docker-compose.yml
