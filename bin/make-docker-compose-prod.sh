@@ -11,7 +11,8 @@ IMAGE_DIGESTS_REPLACE=""
 yq -e '.services | keys  | .[]' "$TMP_FILE" | while read -r SERVICE;
 do
   IMAGE=$(yq -e ".services.\"${SERVICE}\".image" "$TMP_FILE")
-  DIGEST=$(crane digest  --full-ref "$IMAGE")
+  # Remove the substrings 'index.docker.io/library/' and 'index.docker.io/' using sed
+  DIGEST=$(crane digest  --full-ref "$IMAGE" | sed -e 's/index\.docker\.io\/library\///' -e 's/index\.docker\.io\///' )
   echo "${SERVICE} - $DIGEST"
 
   yq -i ".services.\"${SERVICE}\".image = \"${DIGEST}\"" "${TMP_FILE}"

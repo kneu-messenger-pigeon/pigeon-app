@@ -36,7 +36,7 @@ services:
     depends_on:
       - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
+      test: ["CMD", "test", "-f", "/bitnami/init-done", "&&",  "kafka-topics.sh", "--bootstrap-server", "localhost:9092", "--topic", "meta-events", "--describe"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -46,8 +46,11 @@ services:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka:main
     networks:
       - pigeon
+    volumes:
+      - "kafka_data:/bitnami"
     environment:
       - KAFKA_HOST=kafka:9092
+      - DONE_FILE=/bitnami/init-done
     restart: on-failure
     depends_on:
       kafka:
