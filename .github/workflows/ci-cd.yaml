@@ -73,7 +73,9 @@ jobs:
 
   production-deploy:
     name: Deploy production
-    needs: commit-docker-compose-prod
-    if: ${{ needs.integration-release.outputs.change_detected }}
+    needs:
+      - integration-test
+      - commit-docker-compose-prod
+    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
     uses: ./.github/workflows/production-deploy.yaml
     secrets: inherit
