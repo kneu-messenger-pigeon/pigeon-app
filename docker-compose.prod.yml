@@ -169,7 +169,7 @@ services:
       timeout: 5s
       retries: 3
   storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:1bef3987c046a4c62ff96470dad910fb77dc56b67f9336894b911361f6bf52fa
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:47fc2df66fa0ff0192860a89dfa14c94a5bc02e9b6e2e5c847c1ce246e38ccee
     restart: always
     networks:
       - pigeon
@@ -229,7 +229,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:791433ce17939857915e127b5f841e6b29d6f264561608fa6e748fcab21300ce
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:ea4c3c9a32c5bb8348781b2588109ddb215366f118c40727e2b3951a2bb8689d
     restart: always
     networks:
       - pigeon
