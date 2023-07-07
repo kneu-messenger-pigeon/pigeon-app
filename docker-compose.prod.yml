@@ -94,7 +94,7 @@ services:
       - "host.docker.internal:host-gateway"
   ### START section - secondary db importer ###
   secondary-db-disciplines-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:77acbcc0554d3bfc4a6f10ab9a0829bddaceb04716389067bb782148cfd1e2bb
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:aa441812605f98a06ff0e104019d9719f979efe8f341e9f8caad6328423ff69e
     restart: always
     networks:
       - pigeon
