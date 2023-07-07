@@ -13,6 +13,10 @@ on:
     types:
       - image-built
 
+concurrency:
+  group: ci-cd
+  cancel-in-progress: false
+
 jobs:
   make-docker-compose-prod:
     name: Make docker-compose.prod.yml
