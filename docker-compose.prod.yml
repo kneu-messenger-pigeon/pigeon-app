@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   zookeeper:
-    image: bitnami/zookeeper@sha256:1b7c881288972658c7721302111dd19fee6bfe8ea568245f35123a81531f01b4
+    image: bitnami/zookeeper@sha256:a3ff20a3236932078e7596705565847df49c1f1bf12b78c08d7ee66a283ef0ee
     restart: always
     networks:
       - pigeon
@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
   kafka:
-    image: bitnami/kafka@sha256:b115471c8475bffeb9683039f276bfaae41d52c875a56407a961cf78f3d14517
+    image: bitnami/kafka@sha256:4a4af4cd5b61bba404e7e33a1df3dcca46bcbb63ad94d0ac01daf6075bdbee89
     restart: always
     networks:
       - pigeon
@@ -138,7 +138,7 @@ services:
   ### END section - secondary db importer ###
 
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:9f8ac357bac546a4aaeba3cdb3640192c354987402cd29fe7d55f02ee13988e3
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:942083aef49b280bf5121a2a68a837aac237dbd7cf88d7a1289712ab4fe9a870
     restart: always
     networks:
       - pigeon
@@ -229,7 +229,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:def2d5f09095d4042bfad8105c8d77e1802f19682c93338fa7447898c9d3838e
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:791433ce17939857915e127b5f841e6b29d6f264561608fa6e748fcab21300ce
     restart: always
     networks:
       - pigeon
