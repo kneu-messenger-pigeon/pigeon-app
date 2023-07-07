@@ -54,6 +54,9 @@ jobs:
     needs:
       - integration-test
       - make-docker-compose-prod
+    concurrency:
+      group: git-commit
+      cancel-in-progress: false
     if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
     steps:
       - uses: actions/checkout@v3
