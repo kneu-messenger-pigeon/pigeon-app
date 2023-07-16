@@ -140,7 +140,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:942083aef49b280bf5121a2a68a837aac237dbd7cf88d7a1289712ab4fe9a870
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:dce16ff1dfb1109071ae0f40ea76df1b9cd6f42b6674f5e89eaabfe9979d7585
     restart: always
     networks:
       - pigeon
@@ -199,7 +199,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:060c793155ed773c1b5750037d6173f2af535726425ab6c229afe8361048f109
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:56cf27f4d724f61f48279435277e3b2761f5c5546b3bdc19853841491310213d
     restart: always
     ports:
       - "8890:80"
@@ -231,7 +231,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:b02975b45401e0973b9c394db29a6ea40156cdf598c01e9a46197e9c4b4c84e4
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:e9c45593676b217fcb8db6bf2650c261bc893633b824d6899f5362dcab3938cf
     restart: always
     networks:
       - pigeon
