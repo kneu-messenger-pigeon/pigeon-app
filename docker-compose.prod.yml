@@ -74,7 +74,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:d1d2264eebe0d3acaf8523349913087fb27e7e37495a4287828cad29e52a4273
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:b5a131e6d2acd16c00138c41341ffc37ac29a4e6fb86b02dae5ab6717c54a9b7
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -108,7 +108,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-lessons-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:547b4147776a9d61ea203adcffcb5ea37e58657875d5338c33f0f2d4ea343864
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:2d76114e1fc716a98f31220eefeb74038fb4fb0315a1f05b9abd28890ea7c8cf
     restart: always
     networks:
       - pigeon
@@ -122,7 +122,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:5a7584bca1a9e51f3884cedaa9b9fb8c22c7d6877bdd7f483681fdf8f0b52b49
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:572aa41962fd0254b72f7b31a2efff960acf4d8f963458dd9bbc725d3bbf4112
     restart: always
     networks:
       - pigeon
@@ -140,7 +140,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:dce16ff1dfb1109071ae0f40ea76df1b9cd6f42b6674f5e89eaabfe9979d7585
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:74b05fbe5a7802527f3b4909ace119d2371487dc9a230147e4e32cc8405702a9
     restart: always
     networks:
       - pigeon
@@ -171,7 +171,7 @@ services:
       timeout: 5s
       retries: 3
   storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:982f4d26c926e5d085ae44f18740ffc50ab9b58b2e3b22672be99d9b91d32348
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:3318c3924de788a74bc6b8a2b019e6180f455716a0eeba269e96e23cd99a9466
     restart: always
     networks:
       - pigeon
@@ -185,7 +185,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:985e57d6851fdc4f9683807772c6b0860203f5827ff0fbb0b89484f8eac8d649
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:9999b6240a5ad9124b9353831195b6db15bb5e0d498669348885ccc6c43f34f9
     restart: always
     networks:
       - pigeon
@@ -231,7 +231,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:e9c45593676b217fcb8db6bf2650c261bc893633b824d6899f5362dcab3938cf
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:fcf36e108b0a7d6118a11dc503ce67461201df425156ed9be65671ea6e153b32
     restart: always
     networks:
       - pigeon
