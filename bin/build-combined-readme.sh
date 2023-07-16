@@ -30,7 +30,7 @@ while read -r LINE; do
         BUILD_BADGE=$(grep "actions/workflows/.*/badge.svg" <<< "$README_CONTENT" || true)
         CODECOV_BADGE=$(grep "https://codecov.io/.*/badge.svg" <<< "$README_CONTENT" || true)
 
-        echo "| ${SERVICE_NAME} | ${BUILD_BADGE} | ${CODECOV_BADGE} |" >> "$TMP"
+        echo "| [${SERVICE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |" >> "$TMP"
       done
 
   elif [ "$LINE" == "[comment]: <> (End service list)" ]; then
