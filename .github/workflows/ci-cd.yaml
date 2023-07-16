@@ -1,4 +1,4 @@
-name: "CI/CD - integration build, testing and deploy"
+name: CI/CD
 
 on:
   push:
