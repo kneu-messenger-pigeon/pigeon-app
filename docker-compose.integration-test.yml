@@ -5,8 +5,52 @@ services:
     profiles:
       - disabled
     ports: []
-  ### END section - secondary db importer ###
+
+  kafka:
+    healthcheck:
+      interval: 5s
+
 
   authorizer:
     ports: []
 
+  primary-dekanat-db:
+    image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
+    environment:
+      - ISC_PASSWORD=test
+
+  secondary-dekanat-db:
+    image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
+    environment:
+      - ISC_PASSWORD=test
+
+  realtime-importer:
+    environment:
+      - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
+    depends_on:
+      primary-dekanat-db:
+        condition: service_healthy
+
+  ### START section - secondary db importer ###
+  secondary-db-disciplines-importer:
+    environment:
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+    depends_on:
+      secondary-dekanat-db:
+        condition: service_healthy
+
+  secondary-db-lessons-importer:
+    environment:
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+    depends_on:
+      secondary-dekanat-db:
+        condition: service_healthy
+
+  secondary-db-scores-importer:
+    environment:
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+    depends_on:
+      secondary-dekanat-db:
+        condition: service_healthy
+
+  ### END section - secondary db importer ###
