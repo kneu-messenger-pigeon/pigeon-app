@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   zookeeper:
-    image: bitnami/zookeeper@sha256:a3ff20a3236932078e7596705565847df49c1f1bf12b78c08d7ee66a283ef0ee
+    image: bitnami/zookeeper@sha256:7d556bd2d702074d2552b84474fff078af74b25c633ac580d73344d1847c0f35
     restart: always
     networks:
       - pigeon
@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
   kafka:
-    image: bitnami/kafka@sha256:4a4af4cd5b61bba404e7e33a1df3dcca46bcbb63ad94d0ac01daf6075bdbee89
+    image: bitnami/kafka@sha256:bd10e6927f5bf8ee8a5b66d522dd5e2945aede4fdedaf10b2e0f973689874dbd
     restart: always
     networks:
       - pigeon
@@ -74,7 +74,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:cac6bb68d1b2e9dc22a21502d520a7dd6e7e0f9bb219e925b94f868cf406baa7
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:76f6c53c24ef499987c5071faa6a0a88bca27ba35e88863d27dad06cd49c1148
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
