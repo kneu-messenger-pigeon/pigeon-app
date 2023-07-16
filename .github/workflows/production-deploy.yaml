@@ -59,4 +59,5 @@ jobs:
             docker compose up -d
 
             sleep 5
-            curl --fail -s  http://"$(docker compose port authorizer 80)"/healthcheck
+            PORT=$(docker compose port authorizer 8890)
+            curl --fail -s  http://"${PORT:-9999}"/healthcheck
