@@ -3,7 +3,10 @@ set -e
 
 serviceListStarted=false
 packagesListStarted=false
-while read -r LINE; do
+
+SERVICES=$(grep -o "ghcr\.io/.*" docker-compose.base.yml | sed 's/ghcr\.io\///')
+
+while IFS= read -r LINE; do
   if ! $serviceListStarted && ! $packagesListStarted; then
       echo "$LINE"
   fi
@@ -16,11 +19,12 @@ while read -r LINE; do
       echo "| Service | Release status | Codecov |"
       echo "|---------|----------------|---------|"
 
-      grep -o "ghcr.io/.*" docker-compose.base.yml | sed 's/ghcr.io\///' | while read -r REPO ; do
+      while read -r REPO ; do
+        >&2 echo "Put service ${REPO} to readme"
         IFS=":" read -r REPO_NAME BRANCH <<< "$REPO"
 
         BRANCH=${BRANCH:-main}
-        PAKCAGE_NAME="${REPO_NAME//kneu-messenger-pigeon\//}"
+        PACKAGE_NAME="${REPO_NAME//kneu-messenger-pigeon\//}"
 
         README_URL="https://raw.githubusercontent.com/${REPO_NAME}/${BRANCH}/README.md"
         README_CONTENT=$(curl --fail "$README_URL" 2> /dev/null || true)
@@ -28,8 +32,8 @@ while read -r LINE; do
         BUILD_BADGE=$(grep "actions/workflows/.*/badge.svg" <<< "$README_CONTENT" || true)
         CODECOV_BADGE=$(grep "https://codecov.io/.*/badge.svg" <<< "$README_CONTENT" || true)
 
-        echo "| [${PAKCAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
-      done
+        echo "| [${PACKAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
+      done <<< "$SERVICES"
       echo ""
 
   elif [ "$LINE" == "[comment]: <> (End service list)" ]; then
@@ -44,11 +48,26 @@ while read -r LINE; do
       echo "| Package | Test status | Codecov |"
       echo "|---------|-------------|---------|"
 
-      while read -r REPO ; do
+      while IFS= read -r REPO ; do
+          >&2 echo "Get packages of service ${REPO}"
+
+          IFS=":" read -r REPO_NAME BRANCH <<< "$REPO"
+
+          GO_MOD_URL="https://raw.githubusercontent.com/${REPO_NAME}/${BRANCH}/go.mod"
+
+          # print used pckages
+          curl --fail "$GO_MOD_URL" 2> /dev/null | \
+            grep -v "module " | \
+            grep -o "github.com/kneu-messenger-pigeon/\S*\|github.com/\S*kneu\S*" | \
+            sed 's/github\.com\///' || true
+
+      done <<< "$SERVICES" | sort -r -u | \
+      while IFS= read -r REPO ; do
+        >&2 echo "Put package ${REPO} to readme"
         IFS=":" read -r REPO_NAME BRANCH <<< "$REPO"
 
         BRANCH=${BRANCH:-main}
-        PAKCAGE_NAME="${REPO_NAME//kneu-messenger-pigeon\//}"
+        PACKAGE_NAME="${REPO_NAME//kneu-messenger-pigeon\//}"
 
         README_URL="https://raw.githubusercontent.com/${REPO_NAME}/${BRANCH}/README.md"
         README_CONTENT=$(curl --fail "$README_URL" 2> /dev/null || true)
@@ -56,8 +75,9 @@ while read -r LINE; do
         BUILD_BADGE=$(grep "actions/workflows/.*/badge.svg" <<< "$README_CONTENT" || true)
         CODECOV_BADGE=$(grep "https://codecov.io/.*/badge.svg" <<< "$README_CONTENT" || true)
 
-        echo "| [${PAKCAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
-      done< packages.txt
+        echo "| [${PACKAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
+      done 
+
       echo ""
 
   elif [ "$LINE" == "[comment]: <> (End packages list)" ]; then
