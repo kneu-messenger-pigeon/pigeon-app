@@ -74,7 +74,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:76f6c53c24ef499987c5071faa6a0a88bca27ba35e88863d27dad06cd49c1148
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:d1d2264eebe0d3acaf8523349913087fb27e7e37495a4287828cad29e52a4273
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -94,7 +94,7 @@ services:
       - "host.docker.internal:host-gateway"
   ### START section - secondary db importer ###
   secondary-db-disciplines-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:aa441812605f98a06ff0e104019d9719f979efe8f341e9f8caad6328423ff69e
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:b829c7607430dc5f323e7f9a76026a4fdf17525a3091a5f2bd9e65b027ef4ce4
     restart: always
     networks:
       - pigeon
@@ -137,6 +137,8 @@ services:
       - "host.docker.internal:host-gateway"
   ### END section - secondary db importer ###
 
+  ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
+  ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
     image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:942083aef49b280bf5121a2a68a837aac237dbd7cf88d7a1289712ab4fe9a870
     restart: always
