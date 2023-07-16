@@ -1,0 +1,5 @@
+kneu-messenger-pigeon/events
+kneu-messenger-pigeon/score-client
+kneu-messenger-pigeon/authorizer-client
+kneu-messenger-pigeon/client-framework
+berejant/go-kneu
