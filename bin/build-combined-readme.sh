@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-TMP="/$TMPDIR/pigeon-app-services.md"
+TMP="tmp.README.md"
 echo -n "" >> "$TMP"
 
 serviceListStarted=false
