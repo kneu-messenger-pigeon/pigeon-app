@@ -67,10 +67,14 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: docker-compose.prod.yml
+
+      - name: Rebuild Readme
+        run: ./bin/build-combined-readme.sh
+
       - name: Set current date
         id: date
         run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_OUTPUT
-      - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      - uses: EndBug/add-and-commit@v9
         with:
           add: 'docker-compose.prod.yml'
           author_name: CI/CD bot
