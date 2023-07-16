@@ -202,13 +202,13 @@ services:
     image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:f329036a61f83c47094e316524b3d297339bef99581e8fc1393baf52eb48eb4a
     restart: always
     ports:
-      - "8890:80"
+      - "8890:8890"
     networks:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - LISTEN=:80
+      - LISTEN=:8890
       #      - PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
       #      - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
       #      - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
