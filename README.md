@@ -11,6 +11,7 @@
 | [secondary-db-disciplines-importer](https://github.com/kneu-messenger-pigeon/secondary-db-disciplines-importer) | [![Release](https://github.com/kneu-messenger-pigeon/secondary-db-disciplines-importer/actions/workflows/release.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/secondary-db-disciplines-importer/actions/workflows/release.yaml) | [![codecov](https://codecov.io/gh/kneu-messenger-pigeon/secondary-db-disciplines-importer/branch/main/graph/badge.svg?token=GEAF4VU2NV)](https://codecov.io/gh/kneu-messenger-pigeon/secondary-db-disciplines-importer) |
 | [secondary-db-lessons-importer](https://github.com/kneu-messenger-pigeon/secondary-db-lessons-importer) |  |  |
 | [secondary-db-scores-importer](https://github.com/kneu-messenger-pigeon/secondary-db-scores-importer) |  |  |
+| [realtime-changes-event-sender](https://github.com/kneu-messenger-pigeon/realtime-changes-event-sender) |  |  |
 | [realtime-importer](https://github.com/kneu-messenger-pigeon/realtime-importer) |  |  |
 | [storage-writer](https://github.com/kneu-messenger-pigeon/storage-writer) |  |  |
 | [score-storage-api](https://github.com/kneu-messenger-pigeon/score-storage-api) |  |  |
