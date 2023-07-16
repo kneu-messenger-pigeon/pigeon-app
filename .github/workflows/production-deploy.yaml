@@ -48,6 +48,7 @@ jobs:
           envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD
           script_stop: true
           script: |
+            set -e
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
             [ -f docker-compose.yml ] && docker compose down || true
