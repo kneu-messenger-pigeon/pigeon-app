@@ -4,6 +4,9 @@ set -e
 serviceListStarted=false
 packagesListStarted=false
 
+serviceListWritten=false
+packagesListWritten=false
+
 SERVICES=$(grep -o "ghcr\.io/.*" docker-compose.base.yml | sed 's/ghcr\.io\///')
 
 while IFS= read -r LINE; do
@@ -35,6 +38,7 @@ while IFS= read -r LINE; do
         echo "| [${PACKAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
       done <<< "$SERVICES"
       echo ""
+      serviceListWritten=true
 
   elif [ "$LINE" == "[comment]: <> (End service list)" ]; then
       serviceListStarted=false
@@ -76,9 +80,9 @@ while IFS= read -r LINE; do
         CODECOV_BADGE=$(grep "https://codecov.io/.*/badge.svg" <<< "$README_CONTENT" || true)
 
         echo "| [${PACKAGE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |"
-      done 
-
+      done
       echo ""
+      packagesListWritten=true
 
   elif [ "$LINE" == "[comment]: <> (End packages list)" ]; then
       packagesListStarted=false
@@ -86,5 +90,16 @@ while IFS= read -r LINE; do
   fi
 
 done<README.md >tmp.README.md
+
+
+if ! $serviceListWritten; then
+  echo "Service list was not written. Start tag not found"
+  exit 15
+fi
+
+if ! $packagesListWritten; then
+  echo "Packages list was not written. Start tag not found"
+  exit 16
+fi
 
 rm README.md && mv tmp.README.md README.md

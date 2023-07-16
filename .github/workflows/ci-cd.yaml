@@ -7,7 +7,6 @@ on:
       - docker-compose.prod.yml
       - .github/**
       - README.md
-      - packages.txt
 
   workflow_dispatch:
 
