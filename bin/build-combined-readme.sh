@@ -15,6 +15,7 @@ while read -r LINE; do
   if [ "$LINE" == "[comment]: <> (Start service list)" ]; then
       serviceListStarted=true
 
+      echo ""  >> "$TMP"
       echo "| Service | Release status | Codecov |" >> "$TMP"
       echo "|---------|----------------|---------|" >> "$TMP"
 
@@ -32,6 +33,7 @@ while read -r LINE; do
 
         echo "| [${SERVICE_NAME}](https://github.com/${REPO_NAME}) | ${BUILD_BADGE} | ${CODECOV_BADGE} |" >> "$TMP"
       done
+      echo ""  >> "$TMP"
 
   elif [ "$LINE" == "[comment]: <> (End service list)" ]; then
       serviceListStarted=false

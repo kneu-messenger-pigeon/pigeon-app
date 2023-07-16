@@ -1,6 +1,9 @@
+# Pigeon app
 [![CI/CD - integration build, testing and deploy](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml)
 
+## Microservices
 [comment]: <> (Start service list)
+
 | Service | Release status | Codecov |
 |---------|----------------|---------|
 | [init-kafka](https://github.com/kneu-messenger-pigeon/init-kafka) | [![Release](https://github.com/kneu-messenger-pigeon/init-kafka/actions/workflows/release.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/init-kafka/actions/workflows/release.yaml) | [![codecov](https://codecov.io/gh/kneu-messenger-pigeon/init-kafka/branch/main/graph/badge.svg?token=6MFQNOFBIT)](https://codecov.io/gh/kneu-messenger-pigeon/init-kafka) |
@@ -13,4 +16,5 @@
 | [score-storage-api](https://github.com/kneu-messenger-pigeon/score-storage-api) |  |  |
 | [authorizer](https://github.com/kneu-messenger-pigeon/authorizer) |  |  |
 | [telegram-app](https://github.com/kneu-messenger-pigeon/telegram-app) |  |  |
+
 [comment]: <> (End service list)
