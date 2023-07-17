@@ -80,10 +80,11 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         with:
           add: 'docker-compose.prod.yml README.md'
-          author_name: CI/CD bot
-          committer_name: CI/CD bot
-          fetch: false
+          author_name: ${{ github.actor }}
+          fetch: true
+          push: true
           tag: 'stable --force'
+          tag_push: '--force'
           message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'
 
 ##  production-deploy:
