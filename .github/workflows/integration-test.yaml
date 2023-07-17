@@ -75,7 +75,7 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: INFISICAL_TOKEN,INFISICAL_ENV,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,DOCKER_COMPOSE
+          envs: INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,DOCKER_COMPOSE
           script_stop: true
           command_timeout: 25m
           script: |
