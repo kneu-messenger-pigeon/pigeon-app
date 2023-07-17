@@ -83,6 +83,7 @@ jobs:
           author_name: CI/CD bot
           committer_name: CI/CD bot
           fetch: false
+          tag: 'stable --force'
           message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'
 
 ##  production-deploy:

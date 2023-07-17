@@ -2,10 +2,8 @@ name: Deploy production
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - docker-compose.prod.yml
+    tags:
+      - stable
 
   workflow_dispatch:
 
@@ -61,7 +59,7 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD
+          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT
           script_stop: true
           script: |
             which docker
