@@ -63,6 +63,11 @@ jobs:
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
             [ -f docker-compose.yml ] && docker compose down || true
             curl --fail -s $COMPOSE_URL > docker-compose.yml
+
+            export INFISICAL_DISABLE_UPDATE_CHECK=true
+            VARS=$(infisical  export --env=prod)
+            export "$( xargs <<< "$VARS" )"
+
             docker compose pull --quiet
             docker compose build --quiet
             docker compose down
