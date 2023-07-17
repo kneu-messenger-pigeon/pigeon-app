@@ -45,7 +45,6 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         env:
           COMPOSE_URL: ${{ env.COMPOSE_URL }}
-          PRODUCTION_RUN_SCRIPT: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
           WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
@@ -66,7 +65,9 @@ jobs:
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
                         
             curl --fail -s $COMPOSE_URL > docker-compose.yml
-            curl --fail -s $PRODUCTION_RUN_SCRIPT > run-production.sh
+
+            SCRIPT_URL=https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
+            curl --fail -s "$SCRIPT_URL" > run-production.sh
             chmod +x run-production.sh
 
-            infisical run --env=prod -- run-production.sh
+            infisical run --env=prod -- ./run-production.sh
