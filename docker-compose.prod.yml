@@ -190,7 +190,6 @@ services:
     networks:
       - pigeon
     environment:
-      #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - REDIS_DSN=redis://score-storage-redis:6379
       - LISTEN=:80
     depends_on:
