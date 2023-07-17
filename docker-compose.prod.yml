@@ -94,7 +94,7 @@ services:
       - "host.docker.internal:host-gateway"
   ### START section - secondary db importer ###
   secondary-db-disciplines-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:b829c7607430dc5f323e7f9a76026a4fdf17525a3091a5f2bd9e65b027ef4ce4
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:1fa799a1b7716f6f06238b8e26d88202829f3a128b356b8d7095d04369686692
     restart: always
     networks:
       - pigeon
@@ -108,7 +108,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-lessons-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:2d76114e1fc716a98f31220eefeb74038fb4fb0315a1f05b9abd28890ea7c8cf
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:3c8e1ca0a9ec01443f5fb1dd8736d7d1efa1618f72510f54b3727ee23672e5b9
     restart: always
     networks:
       - pigeon
@@ -122,7 +122,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:572aa41962fd0254b72f7b31a2efff960acf4d8f963458dd9bbc725d3bbf4112
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:345b5fca9a971e9e68226ee19b2f9df31eaea2b89bff2879bb6c0b7412a8db50
     restart: always
     networks:
       - pigeon
@@ -171,7 +171,7 @@ services:
       timeout: 5s
       retries: 3
   storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:3318c3924de788a74bc6b8a2b019e6180f455716a0eeba269e96e23cd99a9466
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:9e2718921144ad5d180b328ba38fbda70531f12d61ca34a0ed074181db17823f
     restart: always
     networks:
       - pigeon
@@ -185,7 +185,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:9999b6240a5ad9124b9353831195b6db15bb5e0d498669348885ccc6c43f34f9
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:4338f141f732ee5a56a2aaf45823b283822c38ecd24022630948b97671c4f415
     restart: always
     networks:
       - pigeon
