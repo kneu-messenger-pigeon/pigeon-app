@@ -21,7 +21,15 @@ jobs:
   deploy:
     name: Deploy production
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
     steps:
+      - uses: frenck/action-setup-yq@v1
+      - name: Get authorizer port
+        id: authorizer-port
+        run: |
+          AUTHORIZER_PORT=$(curl --fail -s  ${{ env.COMPOSE_URL }} | yq -e '.services.authorizer.ports[0]')
+          echo "PORT=$(cut -d':' -f2 <<< $AUTHORIZER_PORT)" >> $GITHUB_OUTPUT
       - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
         with:
           packages: openvpn openvpn-systemd-resolved
@@ -36,7 +44,7 @@ jobs:
       - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
         env:
-          COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
+          COMPOSE_URL: ${{ env.COMPOSE_URL }}
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
           WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
@@ -48,7 +56,6 @@ jobs:
           envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD
           script_stop: true
           script: |
-            set -e
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
             [ -f docker-compose.yml ] && docker compose down || true
@@ -59,5 +66,5 @@ jobs:
             docker compose up -d
 
             sleep 5
-            PORT=$(docker compose port authorizer 8890)
-            curl --fail -s  http://"${PORT:-9999}"/healthcheck
+            PORT=$(docker compose port authorizer ${{ steps.authorizer-port.outputs.PORT }})
+            curl --fail -s  http://"${PORT:-unknown}"/healthcheck
