@@ -18,6 +18,9 @@ docker compose build --quiet
 docker compose down --remove-orphans
 docker compose up -d
 
+echo ""
 sleep 4
+
+echo "Healthcheck authorizer"
 PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-8890}")
 curl --fail -s  http://"${PORT:-unknown}"/healthcheck && echo "Authorizer is up" || exit 1
