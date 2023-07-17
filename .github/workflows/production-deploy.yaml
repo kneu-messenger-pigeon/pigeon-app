@@ -6,21 +6,21 @@ on:
       - stable
 
   workflow_dispatch:
-
-  repository_dispatch:
-    types:
-      - deploy-production
-
-  workflow_call:
-    secrets:
-      OVPN_CLIENT_KEY:
-        required: true
-      SSH_KEY:
-        required: true
-      INFISICAL_TOKEN_PRODUCTION:
-        required: true
-      CONTAINER_REGISTRY_READ_TOKEN:
-        required: true
+#
+#  repository_dispatch:
+#    types:
+#      - deploy-production
+#
+#  workflow_call:
+#    secrets:
+#      OVPN_CLIENT_KEY:
+#        required: true
+#      SSH_KEY:
+#        required: true
+#      INFISICAL_TOKEN_PRODUCTION:
+#        required: true
+#      CONTAINER_REGISTRY_READ_TOKEN:
+#        required: true
 
 concurrency:
   group: remote-server-with-openvpn-connection
@@ -31,8 +31,8 @@ jobs:
     name: Deploy production
     runs-on: ubuntu-latest
     env:
-      COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/stable/docker-compose.prod.yml
-      SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/stable/bin/run-production.sh
+      COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
+      SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
     steps:
       - uses: frenck/action-setup-yq@v1
       - name: Get authorizer port
