@@ -39,7 +39,7 @@ services:
       retries: 5
       start_period: 65s
   init-kafka:
-    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:64c5569b8bb087ec6c8347e31a595a48de89b9b28f3104f3be930c69ab14c705
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:4c10b6e21b063ca2b26c6438539d67e296fff8a7964251bfb00afaa12b9cdf1b
     networks:
       - pigeon
     volumes:
@@ -231,7 +231,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:fcf36e108b0a7d6118a11dc503ce67461201df425156ed9be65671ea6e153b32
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:473f8202df98c3c670e0f005ebaf6b2d9bb27dbfc8c2659095a8f536349c3224
     restart: always
     networks:
       - pigeon
