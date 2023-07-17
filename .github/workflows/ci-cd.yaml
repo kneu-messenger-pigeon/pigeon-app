@@ -87,11 +87,17 @@ jobs:
           tag_push: '--force'
           message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'
 
-##  production-deploy:
-##  name: Deploy production
-##    needs:
-##      - integration-test
-##      - commit-docker-compose-prod
-##    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
-##    uses: ./.github/workflows/production-deploy.yaml
-##    secrets: inherit
+  production-deploy:
+    name: Run Deploy production workflow
+    needs:
+      - integration-test
+      - commit-docker-compose-prod
+    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Dispatch Deploy production workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.TOKEN_TO_RUN_GITHUB_ACTION }}
+          repository: ${{ github.repository }}
+          event-type: deploy-production

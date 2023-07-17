@@ -7,6 +7,10 @@ on:
 
   workflow_dispatch:
 
+  repository_dispatch:
+    types:
+      - deploy-production
+
   workflow_call:
     secrets:
       OVPN_CLIENT_KEY:
@@ -27,7 +31,8 @@ jobs:
     name: Deploy production
     runs-on: ubuntu-latest
     env:
-      COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
+      COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/stable/docker-compose.prod.yml
+      SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/stable/bin/run-production.sh
     steps:
       - uses: frenck/action-setup-yq@v1
       - name: Get authorizer port
@@ -49,7 +54,6 @@ jobs:
       - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
         env:
-          COMPOSE_URL: ${{ env.COMPOSE_URL }}
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
           WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
@@ -59,7 +63,7 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT
+          envs: COMPOSE_URL,SCRIPT_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT
           script_stop: true
           script: |
             which docker
@@ -68,11 +72,13 @@ jobs:
             
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
-                        
-            curl --fail -s $COMPOSE_URL > docker-compose.yml
 
-            SCRIPT_URL=https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
+            echo "Downloading docker-compose.yml from $COMPOSE_URL"
+            curl --fail -s "$COMPOSE_URL" > docker-compose.yml
+
+            echo "Downloading run-production.sh from $SCRIPT_URL"
             curl --fail -s "$SCRIPT_URL" > run-production.sh
             chmod +x run-production.sh
 
+            ls -la .
             infisical run --env=prod -- ./run-production.sh
