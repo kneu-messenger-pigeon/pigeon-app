@@ -67,7 +67,6 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         env:
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_INTEGRATION_TEST }}
-          INFISICAL_DISABLE_UPDATE_CHECK: true
           WORKDIR: ${{ vars.REMOTE_INTEGRATION_TEST_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
           DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
@@ -81,4 +80,4 @@ jobs:
           script: |
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
-            ./bin/run-integration-test.sh
+            infisical run --env=integration-testing -- ./bin/run-integration-test.sh

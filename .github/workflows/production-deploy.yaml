@@ -45,11 +45,12 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         env:
           COMPOSE_URL: ${{ env.COMPOSE_URL }}
+          PRODUCTION_RUN_SCRIPT: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_PRODUCTION }}
-          INFISICAL_DISABLE_UPDATE_CHECK: true
           WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
           DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
+          AUTHORIZER_PORT: ${{ steps.authorizer-port.outputs.PORT }}
         with:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
@@ -59,20 +60,13 @@ jobs:
           script: |
             which docker
             which infisical
+            export INFISICAL_DISABLE_UPDATE_CHECK=true
+            
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
-            [ -f docker-compose.yml ] && docker compose down || true
+                        
             curl --fail -s $COMPOSE_URL > docker-compose.yml
+            curl --fail -s $PRODUCTION_RUN_SCRIPT > run-production.sh
+            chmod +x run-production.sh
 
-            export INFISICAL_DISABLE_UPDATE_CHECK=true
-            VARS=$(infisical  export --env=prod)
-            export "$( xargs <<< "$VARS" )"
-
-            docker compose pull --quiet
-            docker compose build --quiet
-            docker compose down
-            infisical run --env=prod -- docker compose up -d
-
-            sleep 5
-            PORT=$(docker compose port authorizer ${{ steps.authorizer-port.outputs.PORT }})
-            curl --fail -s  http://"${PORT:-unknown}"/healthcheck
+            infisical run --env=prod -- run-production.sh
