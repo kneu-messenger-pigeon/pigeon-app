@@ -82,6 +82,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       #      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
       - PAUSE_AFTER_SUCCESS=600
@@ -100,6 +101,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       #      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
@@ -114,6 +116,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       #      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
@@ -128,6 +131,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       #      - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
@@ -148,6 +152,7 @@ services:
       - "realtime-importer-storage:/storage"
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       #      - PRIMARY_DEKANAT_DB_DSN=${PRIMARY_DEKANAT_DB_DSN}
       #      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
@@ -177,6 +182,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       - REDIS_DSN=redis://score-storage-redis:6379
     depends_on:
@@ -191,6 +197,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - REDIS_DSN=redis://score-storage-redis:6379
       - LISTEN=:80
     depends_on:
@@ -207,6 +214,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       - LISTEN=:8890
       #      - PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
@@ -237,6 +245,7 @@ services:
       - pigeon
     environment:
       - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      - INFISICAL_ENV=$INFISICAL_ENV
       - KAFKA_HOST=kafka:9092
       - REDIS_DSN=redis://telegram-app-redis:6379
       - SCORE_STORAGE_API_HOST=http://score-storage-api

@@ -67,6 +67,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         env:
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_INTEGRATION_TEST }}
+          INFISICAL_DISABLE_UPDATE_CHECK: true
           WORKDIR: ${{ vars.REMOTE_INTEGRATION_TEST_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
           DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
@@ -74,7 +75,7 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,DOCKER_COMPOSE
+          envs: INFISICAL_TOKEN,INFISICAL_ENV,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,DOCKER_COMPOSE
           script_stop: true
           command_timeout: 25m
           script: |

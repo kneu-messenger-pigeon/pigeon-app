@@ -1,5 +1,8 @@
 .env
+.env.*
+!.env.example
 storage.txt
 docker-compose.tmp.yml
 docker-compose.yml
 tmp.README.md
+.infisical.json
