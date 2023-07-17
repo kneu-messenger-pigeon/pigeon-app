@@ -113,7 +113,6 @@ services:
     networks:
       - pigeon
     environment:
-      #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
