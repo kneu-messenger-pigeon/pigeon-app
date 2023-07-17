@@ -113,6 +113,7 @@ services:
     networks:
       - pigeon
     environment:
+      #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
@@ -198,7 +199,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:f329036a61f83c47094e316524b3d297339bef99581e8fc1393baf52eb48eb4a
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:ec631bfc2e7a1ce053afa26bbb9d7b1f2540ef590168f6ef79e0fa8c6cf81d2c
     restart: always
     ports:
       - "8890:8890"
