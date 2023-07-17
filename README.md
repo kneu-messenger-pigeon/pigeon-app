@@ -1,5 +1,6 @@
 # Pigeon app
 [![CI/CD - integration build, testing and deploy](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml)
+[![Deploy production](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/production-deploy.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/production-deploy.yaml)
 
 ## Microservices
 [comment]: <> (Start service list)

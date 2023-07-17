@@ -1,7 +1,14 @@
 name: Deploy production
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - docker-compose.prod.yml
+
   workflow_dispatch:
+
   workflow_call:
     secrets:
       OVPN_CLIENT_KEY:

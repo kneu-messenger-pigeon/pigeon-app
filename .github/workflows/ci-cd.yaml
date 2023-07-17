@@ -65,6 +65,8 @@ jobs:
     if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref_name }}
       - uses: actions/download-artifact@v3
         with:
           name: docker-compose.prod.yml
@@ -83,11 +85,11 @@ jobs:
           fetch: false
           message: 'Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}'
 
-  production-deploy:
-    name: Deploy production
-    needs:
-      - integration-test
-      - commit-docker-compose-prod
-    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
-    uses: ./.github/workflows/production-deploy.yaml
-    secrets: inherit
+##  production-deploy:
+##  name: Deploy production
+##    needs:
+##      - integration-test
+##      - commit-docker-compose-prod
+##    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+##    uses: ./.github/workflows/production-deploy.yaml
+##    secrets: inherit
