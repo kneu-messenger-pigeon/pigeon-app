@@ -176,7 +176,7 @@ services:
     networks:
       - pigeon
     environment:
-      - INFISICAL_TOKEN=$INFISICAL_TOKEN
+      #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - REDIS_DSN=redis://score-storage-redis:6379
     depends_on:
