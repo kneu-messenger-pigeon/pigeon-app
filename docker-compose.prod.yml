@@ -74,7 +74,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:b5a131e6d2acd16c00138c41341ffc37ac29a4e6fb86b02dae5ab6717c54a9b7
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:b3084d4b5ceee43b1292d8e03b3fc9ee68ac8cec88989fdc6b7421350ffc4409
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -140,7 +140,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:74b05fbe5a7802527f3b4909ace119d2371487dc9a230147e4e32cc8405702a9
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:662530446f4858cefe7ab8bb28864be264c7ef4c83402f8009f6805ddc7a7ff1
     restart: always
     networks:
       - pigeon
