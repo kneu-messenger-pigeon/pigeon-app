@@ -20,4 +20,4 @@ docker compose up -d
 
 sleep 4
 PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-8890}")
-curl --fail -s  http://"${PORT:-unknown}"/healthcheck
+curl --fail -s  http://"${PORT:-unknown}"/healthcheck && echo "Authorizer is up" || exit 1

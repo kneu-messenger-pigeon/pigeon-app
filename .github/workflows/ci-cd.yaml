@@ -40,7 +40,7 @@ jobs:
 
       - name: Detect changes in docker-compose.prod.yml
         id: detect-changes
-        run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" >> $GITHUB_OUTPUT || true
+        run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" >> $GITHUB_OUTPUT || echo "No changes"
 
       - uses: actions/upload-artifact@v3
         with:
@@ -82,7 +82,7 @@ jobs:
       - name: Commit report
         run: |
           git config --global user.name '${{ github.actor }}'
-          git config --global user.email 'ci@users.noreply.github.com'
+          git config --global user.email '${{ github.actor }}@users.noreply.github.com'
           git add docker-compose.prod.yml README.md
           git commit -m "Updated docker-compose.prod.yml - ${{ steps.date.outputs.NOW }}"
           git tag -d stable || true
