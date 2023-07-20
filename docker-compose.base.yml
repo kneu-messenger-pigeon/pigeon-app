@@ -275,6 +275,7 @@ services:
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
       - HEALTHCHECK_PING_URL=${HEALTHCHECK_PING_URL}
       - INTERVAL=60
+      - IGNORE_SERVICES=init-kafka
     depends_on:
       kafka:
         condition: service_healthy
