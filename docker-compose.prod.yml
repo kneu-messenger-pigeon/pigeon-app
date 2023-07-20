@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   zookeeper:
-    image: bitnami/zookeeper@sha256:7d556bd2d702074d2552b84474fff078af74b25c633ac580d73344d1847c0f35
+    image: bitnami/zookeeper@sha256:fb85322ce5a6a5a960e12babded83c673c52747c359c95cff1a1aefafa707157
     restart: always
     networks:
       - pigeon
@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
   kafka:
-    image: bitnami/kafka@sha256:bd10e6927f5bf8ee8a5b66d522dd5e2945aede4fdedaf10b2e0f973689874dbd
+    image: bitnami/kafka@sha256:ac7a43cd5560267c9214cb8b573cbf1d47b33cdf17eaf1c4ed3797cf9c8f5fc4
     restart: always
     networks:
       - pigeon
