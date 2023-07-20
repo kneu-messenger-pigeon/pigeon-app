@@ -266,6 +266,17 @@ services:
         condition: service_healthy
   ### END section - telegram app ###
 
+  healthcheck-ping:
+    image: ghcr.io/berejant/healthcheck-ping:main
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
+      - HEALTHCHECK_PING_URL=${HEALTHCHECK_PING_URL}
+      - HEALTHCHECK_TIMEOUT=90
+
 volumes:
   secondary-db-watcher-storage:
     driver: local

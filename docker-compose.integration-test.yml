@@ -6,10 +6,9 @@ services:
       - disabled
     ports: []
 
-  kafka:
-    healthcheck:
-      interval: 5s
-
+  healthcheck-ping:
+    profiles:
+      - disabled
 
   authorizer:
     ports: []
