@@ -253,15 +253,17 @@ services:
   ### END section - telegram app ###
 
   healthcheck-ping:
-    image: ghcr.io/berejant/healthcheck-ping@sha256:90fb6b9294a4dfcb5cd209e55a0944776814719a9d1be8e94e97e13937524df4
-    restart: unless-stopped
-    privileged: true
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:94d7aaeb20a3a581fd263075c6fd29495a10270f96ed9d77ef3b2846443c02de
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
       - HEALTHCHECK_PING_URL=${HEALTHCHECK_PING_URL}
-      - HEALTHCHECK_TIMEOUT=90
+      - INTERVAL=60
+    depends_on:
+      kafka:
+        condition: service_healthy
 volumes:
   secondary-db-watcher-storage:
     driver: local
