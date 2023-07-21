@@ -26,7 +26,7 @@ services:
       retries: 5
       start_period: 65s
   init-kafka:
-    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:7b68a21498fec12040d841d5ed883d753a0e760c8c0adaa88393563bd846a649
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:822db393ab53cf74b7e59917dabbe714536aace98868ca905277a2f4d5fd1f2b
     networks:
       - pigeon
     volumes:
@@ -82,7 +82,7 @@ services:
       - "host.docker.internal:host-gateway"
   ### START section - secondary db importer ###
   secondary-db-disciplines-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:1fa799a1b7716f6f06238b8e26d88202829f3a128b356b8d7095d04369686692
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:efe87966321beae01e7abefc9d47b2a4e95bff56acba1af0ab1c403efa9f7392
     restart: always
     networks:
       - pigeon
