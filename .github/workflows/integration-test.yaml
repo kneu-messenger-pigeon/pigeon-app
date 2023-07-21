@@ -80,4 +80,5 @@ jobs:
           script: |
             grep '"ghcr.io"' ~/.docker/config.json > /dev/null || echo $DOCKER_PASSWORD | docker login ghcr.io -u "$DOCKER_USER" --password-stdin
             mkdir -p "$WORKDIR" && cd "$WORKDIR"
+            export INFISICAL_DISABLE_UPDATE_CHECK=true
             infisical run --env=integration-testing -- ./bin/run-integration-test.sh
