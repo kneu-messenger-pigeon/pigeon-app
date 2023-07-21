@@ -96,7 +96,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-lessons-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:3c8e1ca0a9ec01443f5fb1dd8736d7d1efa1618f72510f54b3727ee23672e5b9
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:355fdea09d1a2a149b724a9826b470fb3f002a5fdbac8f903f8cc6ceb0376ead
     restart: always
     networks:
       - pigeon
