@@ -266,6 +266,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+      authorizer:
+        condition: service_healthy
 volumes:
   secondary-db-watcher-storage:
     driver: local
