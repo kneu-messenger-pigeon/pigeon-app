@@ -1,6 +1,15 @@
 version: "3.9"
 
 services:
+  init-kafka:
+    environment:
+      - START_TIMEOUT=0s
+    depends_on:
+      primary-dekanat-db:
+        condition: service_healthy
+      secondary-dekanat-db:
+        condition: service_healthy
+
   kafka-ui:
     profiles:
       - disabled
