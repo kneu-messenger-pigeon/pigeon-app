@@ -3,7 +3,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   zookeeper:
-    image: docker.io/bitnami/zookeeper:3.8-debian-11
+    image: bitnami/zookeeper:3.8-debian-11
     restart: always
     networks:
       - pigeon
@@ -19,7 +19,7 @@ services:
       retries: 5
 
   kafka:
-    image: docker.io/bitnami/kafka:3.4-debian-11
+    image: bitnami/kafka:3.4-debian-11
     restart: always
     networks:
       - pigeon
@@ -51,8 +51,9 @@ services:
     environment:
       - KAFKA_HOST=kafka:9092
       - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
+      - START_TIMEOUT=4s
       # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
-      - FINISH_TIMEOUT=16
+      - FINISH_TIMEOUT=16s
     restart: on-failure
     depends_on:
       kafka:
