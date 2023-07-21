@@ -256,6 +256,8 @@ services:
       authorizer:
         condition: service_healthy
 volumes:
+  kafka_data:
+    driver: local
   secondary-db-watcher-storage:
     driver: local
   realtime-importer-storage:
@@ -263,10 +265,6 @@ volumes:
   score-storage-redis:
     driver: local
   telegram-app-redis:
-    driver: local
-  zookeeper_data:
-    driver: local
-  kafka_data:
     driver: local
 networks:
   pigeon:
