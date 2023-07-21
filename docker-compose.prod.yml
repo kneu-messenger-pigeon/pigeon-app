@@ -39,7 +39,7 @@ services:
       retries: 5
       start_period: 65s
   init-kafka:
-    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:4c10b6e21b063ca2b26c6438539d67e296fff8a7964251bfb00afaa12b9cdf1b
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:7b68a21498fec12040d841d5ed883d753a0e760c8c0adaa88393563bd846a649
     networks:
       - pigeon
     volumes:
@@ -47,8 +47,9 @@ services:
     environment:
       - KAFKA_HOST=kafka:9092
       - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
+      - START_TIMEOUT=4s
       # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
-      - FINISH_TIMEOUT=16
+      - FINISH_TIMEOUT=20s
     restart: on-failure
     depends_on:
       kafka:
@@ -140,7 +141,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:662530446f4858cefe7ab8bb28864be264c7ef4c83402f8009f6805ddc7a7ff1
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:b8999fe1f5e134bc27032d58429708f6a82daddee3f38dcd0ff0ca98ed6ca5b9
     restart: always
     networks:
       - pigeon
@@ -253,7 +254,7 @@ services:
   ### END section - telegram app ###
 
   healthcheck-ping:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:94d7aaeb20a3a581fd263075c6fd29495a10270f96ed9d77ef3b2846443c02de
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:caee4b5ea13b896f7dcabe8802b380152191f66e8c067fe4c6330b3b79512d2d
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
