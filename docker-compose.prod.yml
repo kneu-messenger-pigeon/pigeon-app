@@ -122,7 +122,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:345b5fca9a971e9e68226ee19b2f9df31eaea2b89bff2879bb6c0b7412a8db50
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:e9957afeedb9f2f03f9f066a9d51625c26af0aea1c88c0e3319ff4838146a0e9
     restart: always
     networks:
       - pigeon
