@@ -252,7 +252,7 @@ services:
         condition: service_healthy
   ### END section - telegram app ###
 
-  healthcheck-ping:
+  healthcheck-pinger:
     image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger:main
     restart: always
     volumes:
