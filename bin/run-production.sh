@@ -16,7 +16,7 @@ fi
 docker compose pull --quiet
 docker compose build --quiet
 
-if [ -n "$SKIP_DOWN" ]; then
+if [ "$SKIP_DOWN" = "true" ]; then
   echo "Skip docker down"
 else
   docker compose down --remove-orphans

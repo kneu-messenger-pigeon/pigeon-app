@@ -34,7 +34,7 @@ jobs:
     env:
       COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
       SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
-      SKIP_DOWN: ${{ github.event_name == 'repository_dispatch' && github.event.action == 'environments-updated' }}
+      SKIP_DOWN: ${{ github.event.action == 'environments-updated' && 'true' || 'false' }}
     steps:
       - uses: frenck/action-setup-yq@v1
       - name: Get authorizer port
