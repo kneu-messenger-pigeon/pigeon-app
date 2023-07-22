@@ -240,8 +240,8 @@ services:
         condition: service_healthy
   ### END section - telegram app ###
 
-  healthcheck-ping:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:caee4b5ea13b896f7dcabe8802b380152191f66e8c067fe4c6330b3b79512d2d
+  healthcheck-pinger:
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:65300519bca6fa6e5dbdb7b28ec6dd22f9641f4685cb220743beb6e96941a107
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
