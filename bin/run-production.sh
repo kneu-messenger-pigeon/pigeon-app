@@ -22,7 +22,7 @@ else
   docker compose down --remove-orphans
 fi
 
-docker compose up -d
+docker compose up -d --remove-orphans
 
 echo ""
 sleep 4

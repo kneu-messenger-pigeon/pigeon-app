@@ -8,5 +8,6 @@ EXIT_CODE=$?
 echo $EXIT_CODE
 
 $DOCKER_COMPOSE down --remove-orphans --volumes --timeout 60 >/dev/null 2>&1
+$DOCKER_COMPOSE rm  --stop --force --volumes >/dev/null 2>&1
 
 exit $EXIT_CODE
