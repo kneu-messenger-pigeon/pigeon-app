@@ -6,10 +6,11 @@ on:
       - stable
 
   workflow_dispatch:
-#
-#  repository_dispatch:
-#    types:
-#      - deploy-production
+
+  repository_dispatch:
+    types:
+      - environments-updated
+
 #
 #  workflow_call:
 #    secrets:
@@ -33,6 +34,7 @@ jobs:
     env:
       COMPOSE_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/docker-compose.prod.yml
       SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
+      SKIP_DOWN: ${{ github.event_name == 'repository_dispatch' && github.event.action == 'environments-updated' }}
     steps:
       - uses: frenck/action-setup-yq@v1
       - name: Get authorizer port
@@ -63,7 +65,7 @@ jobs:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,SCRIPT_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT
+          envs: COMPOSE_URL,SCRIPT_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT,SKIP_DOWN
           script_stop: true
           script: |
             which docker

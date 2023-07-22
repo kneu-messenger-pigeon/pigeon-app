@@ -15,7 +15,13 @@ fi
 
 docker compose pull --quiet
 docker compose build --quiet
-docker compose down --remove-orphans
+
+if [ -n "$SKIP_DOWN" ]; then
+  echo "Skip docker down"
+else
+  docker compose down --remove-orphans
+fi
+
 docker compose up -d
 
 echo ""
