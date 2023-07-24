@@ -26,7 +26,7 @@ services:
       retries: 5
       start_period: 65s
   init-kafka:
-    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:7fedf0a2b7ce046b148cfb7de6d822b0c86b2f0ba4097c4200f188b1cc6ab647
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:d477026a46a3b7b87c46ebba8caa8ea84f9279eaee51d78387f71cc2eae7d45a
     networks:
       - pigeon
     volumes:
