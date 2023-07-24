@@ -62,7 +62,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:cd1c3d21afda0e3d5b1a25e8da5ee29a1c673f408942a735c34a35291f5bf88a
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:d66f52e3e8c9df9b13620b2d1819ca5c1de25fb81a4dd5ecfdbf4864b3cbc92a
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -241,7 +241,7 @@ services:
   ### END section - telegram app ###
 
   healthcheck-pinger:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:5f9e5f506b0e14db2dedf789f8ef0d702288238950ddfc167d33ebb2a2a29d8e
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:54f53ac93a16b51cbcf3e826e3e107aa618a8c8beceb554f014b7b662fa8e599
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
