@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:4c0bed38a07275226a3a3e61d0435a866c8882e7a32168c19e09c168e3bda835
+    image: bitnami/kafka@sha256:d7f0a221f82c83ca1a44b4ee7ca9500f59151735f341588cdb7858250060719e
     restart: always
     networks:
       - pigeon
@@ -26,7 +26,7 @@ services:
       retries: 5
       start_period: 65s
   init-kafka:
-    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:822db393ab53cf74b7e59917dabbe714536aace98868ca905277a2f4d5fd1f2b
+    image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:7fedf0a2b7ce046b148cfb7de6d822b0c86b2f0ba4097c4200f188b1cc6ab647
     networks:
       - pigeon
     volumes:
