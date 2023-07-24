@@ -241,7 +241,7 @@ services:
   ### END section - telegram app ###
 
   healthcheck-pinger:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:65300519bca6fa6e5dbdb7b28ec6dd22f9641f4685cb220743beb6e96941a107
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:8aa475930867f74c21e5e0bb0e1804e84f38b56d53f815bc18ca594d813d2308
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
