@@ -62,7 +62,7 @@ services:
   ### END section - kafka and related ##
 
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:d66f52e3e8c9df9b13620b2d1819ca5c1de25fb81a4dd5ecfdbf4864b3cbc92a
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:58306608c6ad46963cc96898c6c6e220ee0434e681309d7461ebf6152a4900e1
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
