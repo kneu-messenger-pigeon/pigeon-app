@@ -47,7 +47,7 @@ services:
   kafka-ui:
     image: provectuslabs/kafka-ui
     ports:
-      - "8892:8080"
+      - "${KAFKA_UI_LISTEN:-127.0.0.1:8892}:8080"
     networks:
       - pigeon
     restart: unless-stopped
