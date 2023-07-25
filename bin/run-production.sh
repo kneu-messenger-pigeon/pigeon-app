@@ -22,6 +22,6 @@ sleep 4
 
 docker compose ps
 
-echo "Healthcheck authorizer"
 PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-8890}")
+echo "Healthcheck authorizer: $PORT"
 curl --fail -s  http://"${PORT:-unknown}"/healthcheck && echo "Authorizer is up" || exit 1
