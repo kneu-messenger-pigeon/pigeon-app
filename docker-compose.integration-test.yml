@@ -18,6 +18,8 @@ services:
   healthcheck-pinger:
     profiles:
       - disabled
+    environment:
+        - HEALTHCHECK_URL=
 
   authorizer:
     ports: []

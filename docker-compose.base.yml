@@ -71,7 +71,7 @@ services:
       - "${LISTEN_HTTPS}:443"
     volumes:
       - type: bind
-        source: ${SSL_CERTS_DIR:-./ssl}
+        source: ${SSL_CERTS_DIR:-/tmp}
         target: /ssl
         read_only: true
 
