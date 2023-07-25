@@ -9,7 +9,7 @@ if [ -z "$AUTHORIZER_PORT" ] && command -v yq >/dev/null 2>&1; then
     AUTHORIZER_PORT=$(yq -e '.services.authorizer.ports[0]' docker-compose.yml )
   fi
 
-  AUTHORIZER_PORT=$(echo "$AUTHORIZER_PORT" | cut -d':' -f2)
+  AUTHORIZER_PORT=$(echo "$AUTHORIZER_PORT" | rev | cut -d':' -f1 | rev)
   echo "Authorizer port from docker compose yml: $AUTHORIZER_PORT"
 fi
 
@@ -22,6 +22,6 @@ sleep 4
 
 docker compose ps
 
-PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-8890}")
+PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-80}")
 echo "Healthcheck authorizer: $PORT"
 curl --fail -s  http://"${PORT:-unknown}"/healthcheck && echo "Authorizer is up" || exit 1

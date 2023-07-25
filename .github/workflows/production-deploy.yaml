@@ -40,7 +40,7 @@ jobs:
         id: authorizer-port
         run: |
           AUTHORIZER_PORT=$(curl --fail -s  ${{ env.COMPOSE_URL }} | yq -e '.services.authorizer.ports[0]')
-          echo "PORT=$(cut -d':' -f2 <<< $AUTHORIZER_PORT)" >> $GITHUB_OUTPUT
+          echo "PORT=$(rev <<< $AUTHORIZER_PORT | cut -d':' -f1 | rev )" >> $GITHUB_OUTPUT
       - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
         with:
           packages: openvpn openvpn-systemd-resolved
