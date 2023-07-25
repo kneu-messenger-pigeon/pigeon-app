@@ -1,18 +1,6 @@
 #!/usr/bin/env sh
 set -e
 
-echo "Authorizer port from variable: $AUTHORIZER_PORT"
-if [ -z "$AUTHORIZER_PORT" ] && command -v yq >/dev/null 2>&1; then
-  if [ -f docker-compose.prod.yml ]; then
-    AUTHORIZER_PORT=$(yq -e '.services.authorizer.ports[0]' docker-compose.prod.yml )
-  else
-    AUTHORIZER_PORT=$(yq -e '.services.authorizer.ports[0]' docker-compose.yml )
-  fi
-
-  AUTHORIZER_PORT=$(echo "$AUTHORIZER_PORT" | rev | cut -d':' -f1 | rev)
-  echo "Authorizer port from docker compose yml: $AUTHORIZER_PORT"
-fi
-
 docker compose pull --quiet
 docker compose build --quiet
 docker compose up -d --remove-orphans
@@ -22,6 +10,6 @@ sleep 4
 
 docker compose ps
 
-PORT=$(docker compose port authorizer "${AUTHORIZER_PORT:-80}")
-echo "Healthcheck authorizer: $PORT"
-curl --fail -s  http://"${PORT:-unknown}"/healthcheck && echo "Authorizer is up" || exit 1
+PORT=$(docker compose port gateway "${GATEWAY_PORT:-443}")
+echo "Healthcheck authorizer via gateway: $PORT"
+curl --fail -s  https://"${PORT:-unknown}"/authorizer/healthcheck && echo "Authorizer is up" || exit 1

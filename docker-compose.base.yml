@@ -64,6 +64,19 @@ services:
       retries: 3
   ### END section - kafka and related ##
 
+  gateway:
+    image: ghcr.io/kneu-messenger-pigeon/gateway:main
+    restart: always
+    ports:
+      - "${LISTEN_HTTPS}:443"
+    volumes:
+      - type: bind
+        source: ${SSL_CERTS_DIR:-./ssl}
+        target: /ssl
+        read_only: true
+
+  ### START Pigeon microservices ###
+
   secondary-db-watcher:
     image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher:main
     restart: always
@@ -198,15 +211,13 @@ services:
   authorizer:
     image: ghcr.io/kneu-messenger-pigeon/authorizer:main
     restart: always
-    ports:
-      - "${LISTEN_AUTHORIZER:-8085}:80"
     networks:
       - pigeon
     environment:
 #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
       - LISTEN=:80
-      - AUTHORIZER_PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
+      - AUTHORIZER_PUBLIC_URL=${PUBLIC_URL}/authorizer
       - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
       - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
       - APP_SECRET=${APP_SECRET}
@@ -267,6 +278,8 @@ services:
         condition: service_healthy
       authorizer:
         condition: service_healthy
+
+  ### END Pigeon microservices ###
 
 volumes:
   kafka_data:

@@ -36,11 +36,6 @@ jobs:
       - name: Show diff docker-compose.prod.yml
         run: git diff docker-compose.prod.yml
 
-      - uses: frenck/action-setup-yq@v1
-      - name: Remove expose ports from docker-compose.prod.yml
-        # prevent issue "port is already allocated"
-        run: yq -i 'del(.services.*.ports)' docker-compose.prod.yml
-
       ## Start section with VPN connections
       - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
         with:

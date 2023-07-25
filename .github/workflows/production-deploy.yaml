@@ -36,11 +36,6 @@ jobs:
       SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
     steps:
       - uses: frenck/action-setup-yq@v1
-      - name: Get authorizer port
-        id: authorizer-port
-        run: |
-          AUTHORIZER_PORT=$(curl --fail -s  ${{ env.COMPOSE_URL }} | yq -e '.services.authorizer.ports[0]')
-          echo "PORT=$(rev <<< $AUTHORIZER_PORT | cut -d':' -f1 | rev )" >> $GITHUB_OUTPUT
       - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
         with:
           packages: openvpn openvpn-systemd-resolved
@@ -59,12 +54,11 @@ jobs:
           WORKDIR: ${{ vars.REMOTE_PROD_DIR }}
           DOCKER_USER: ${{ github.repository_owner }}
           DOCKER_PASSWORD: ${{ secrets.CONTAINER_REGISTRY_READ_TOKEN }}
-          AUTHORIZER_PORT: ${{ steps.authorizer-port.outputs.PORT }}
         with:
           host: ${{ vars.SSH_HOST }}
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          envs: COMPOSE_URL,SCRIPT_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD,AUTHORIZER_PORT
+          envs: COMPOSE_URL,SCRIPT_URL,INFISICAL_TOKEN,WORKDIR,DOCKER_USER,DOCKER_PASSWORD
           script_stop: true
           script: |
             which docker
