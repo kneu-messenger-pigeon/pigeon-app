@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:d7f0a221f82c83ca1a44b4ee7ca9500f59151735f341588cdb7858250060719e
+    image: bitnami/kafka@sha256:73f9328af6b75f693da32c084ee123ab5f2aa0d630334fe143347d1c58061fc5
     restart: always
     networks:
       - pigeon
