@@ -10,6 +10,6 @@ sleep 4
 
 docker compose ps
 
-PORT=$(docker compose port gateway "${GATEWAY_PORT:-443}")
+PORT=$(docker compose port gateway 443)
 echo "Healthcheck authorizer via gateway: $PORT"
 curl --fail -s  https://"${PORT:-unknown}"/authorizer/healthcheck && echo "Authorizer is up" || exit 1

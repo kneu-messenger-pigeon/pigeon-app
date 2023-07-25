@@ -74,6 +74,8 @@ services:
         source: ${SSL_CERTS_DIR:-/tmp}
         target: /ssl
         read_only: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   ### START Pigeon microservices ###
 
