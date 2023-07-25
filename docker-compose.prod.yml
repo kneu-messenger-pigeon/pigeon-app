@@ -44,7 +44,7 @@ services:
   kafka-ui:
     image: provectuslabs/kafka-ui@sha256:477d4c3d896a0deefdcccf0e08e8fb0d4258e5340d34f3c3513f75073de5835c
     ports:
-      - "${KAFKA_UI_LISTEN:-127.0.0.1:8892}:8080"
+      - "${LISTEN_KAFKA_UI:-127.0.0.1:8892}:8080"
     networks:
       - pigeon
     restart: unless-stopped
@@ -190,13 +190,13 @@ services:
     image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:6d7db217f1e788fa77a417b7cc4c1b2ce4f813580f743de56caaff92e39cfa0b
     restart: always
     ports:
-      - "8890:8890"
+      - "${LISTEN_AUTHORIZER:-8085}:80"
     networks:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
-      - LISTEN=:8890
+      - LISTEN=:80
       - AUTHORIZER_PUBLIC_URL=${AUTHORIZER_PUBLIC_URL}
       - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
       - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
