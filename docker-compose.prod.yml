@@ -62,7 +62,7 @@ services:
   ### END section - kafka and related ##
 
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:4d75b5483f603a0d83506b19908c851a18296da85631b9066f4b7c5ba94d7639
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:d5422f4f0e86486ec5d837c30eda35dd830f36e991eee90009f224050cf027a2
     restart: always
     ports:
       - "${LISTEN_HTTPS}:443"
