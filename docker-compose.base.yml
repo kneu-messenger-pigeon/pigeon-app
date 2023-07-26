@@ -1,6 +1,26 @@
 version: "3.9"
 
 services:
+  # common nginx-gateway to have single public https-entrypoint for all services
+  gateway:
+    image: ghcr.io/kneu-messenger-pigeon/gateway:main
+    restart: always
+    networks:
+      - pigeon
+    ports:
+      - "${LISTEN_HTTPS}:443"
+    volumes:
+      - type: bind
+        source: ${SSL_CERTS_DIR:-/tmp}
+        target: /ssl
+        read_only: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      authorizer:
+        condition: service_started
+
+
   ### START section - kafka and related ##
   kafka:
     image: bitnami/kafka:3.4-debian-11
@@ -63,24 +83,6 @@ services:
       timeout: 5s
       retries: 3
   ### END section - kafka and related ##
-
-  gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway:main
-    restart: always
-    networks:
-      - pigeon
-    ports:
-      - "${LISTEN_HTTPS}:443"
-    volumes:
-      - type: bind
-        source: ${SSL_CERTS_DIR:-/tmp}
-        target: /ssl
-        read_only: true
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
-        authorizer:
-            condition: service_started
 
   ### START Pigeon microservices ###
 
