@@ -62,7 +62,7 @@ services:
   ### END section - kafka and related ##
 
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:f7f6fbc74d4f6df7da05576d1b3b1734e715c4fe6cdd33c1a6e6cd2cb2cb90fd
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:d73e8e890900455c6a968dc94a00403c92650e18c63ce02d55ad0f639942d087
     restart: always
     networks:
       - pigeon
