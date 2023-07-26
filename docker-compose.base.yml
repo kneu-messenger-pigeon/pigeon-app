@@ -39,10 +39,10 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
       test: ["CMD", "/bitnami/kafka/healthcheck.sh"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 65s
+      interval: 10s
+      timeout: 3s
+      retries: 2
+      start_period: 45s
 
   init-kafka:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka:main
