@@ -11,7 +11,7 @@ services:
       - "${LISTEN_HTTPS}:443"
     volumes:
       - type: volume
-        source: ${SSL_CERTS_DIR:-/tmp}
+        source: ${SSL_CERTS_DIR:-default-gateway-ssl}
         target: /ssl
         read_only: true
     extra_hosts:
@@ -293,6 +293,9 @@ services:
   ### END Pigeon microservices ###
 
 volumes:
+  default-gateway-ssl:
+    driver: local;
+
   kafka_data:
     driver: local
 
