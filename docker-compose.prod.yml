@@ -9,10 +9,7 @@ services:
     ports:
       - "${LISTEN_HTTPS}:443"
     volumes:
-      - type: bind
-        source: ${SSL_CERTS_DIR:-/tmp}
-        target: /ssl
-        read_only: true
+      - ./ssl:/ssl:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
