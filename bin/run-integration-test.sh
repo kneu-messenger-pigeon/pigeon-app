@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-[ -f ssl ] || mkdir ssl
+[ -d ssl ] || [ -L ssl ] ||  mkdir ssl
 
 DOCKER_COMPOSE="docker compose -f docker-compose.prod.yml -f docker-compose.integration-test.yml -p pigeon-app-integration-test "
 
