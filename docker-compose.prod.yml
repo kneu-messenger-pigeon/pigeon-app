@@ -2,7 +2,7 @@ version: "3.9"
 services:
   # common nginx-gateway to have single public https-entrypoint for all services
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:12601ebb0c2106f414c81262f552cb446ea0f3f7d0a9292ebc62d5347f6d91a3
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:8f83b7d989ddf97e7b4df2743d2945fee90436c66394a438703c0557a0a3e68b
     restart: always
     networks:
       - pigeon
