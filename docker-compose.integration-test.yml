@@ -1,6 +1,10 @@
 version: "3.9"
 
 services:
+  kafka:
+    healthcheck:
+      interval: 3s
+
   init-kafka:
     environment:
       - START_TIMEOUT=0s
