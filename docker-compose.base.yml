@@ -67,6 +67,8 @@ services:
   gateway:
     image: ghcr.io/kneu-messenger-pigeon/gateway:main
     restart: always
+    networks:
+      - pigeon
     ports:
       - "${LISTEN_HTTPS}:443"
     volumes:
@@ -76,6 +78,9 @@ services:
         read_only: true
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+        authorizer:
+            condition: service_started
 
   ### START Pigeon microservices ###
 
