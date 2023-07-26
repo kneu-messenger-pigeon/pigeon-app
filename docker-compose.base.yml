@@ -8,8 +8,8 @@ services:
     networks:
       - pigeon
     ports:
-      - "${LISTEN_HTTPS:28443}:443"
-      - "${LISTEN_HTTP:28080}:443"
+      - "${LISTEN_HTTP:-28080}:80"
+      - "${LISTEN_HTTPS:-28443}:443"
     environment:
         - SSL_FOLDER
     volumes:
