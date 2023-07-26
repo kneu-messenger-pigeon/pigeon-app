@@ -283,6 +283,8 @@ services:
       - INTERVAL=60
       - IGNORE_SERVICES=init-kafka
     depends_on:
+      gateway:
+        condition: service_healthy
       kafka:
         condition: service_healthy
       authorizer:
