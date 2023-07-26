@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 set -e
+[ -f ssl ] || mkdir ssl
 
 docker compose pull --quiet
 docker compose build --quiet

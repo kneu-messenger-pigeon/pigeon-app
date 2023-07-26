@@ -6,3 +6,5 @@ docker-compose.tmp.yml
 docker-compose.yml
 tmp.README.md
 .infisical.json
+ssl/*
+!ssl/.gitkeep

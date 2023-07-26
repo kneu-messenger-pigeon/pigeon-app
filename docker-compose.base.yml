@@ -10,10 +10,7 @@ services:
     ports:
       - "${LISTEN_HTTPS}:443"
     volumes:
-      - type: volume
-        source: ${SSL_CERTS_DIR:-default-gateway-ssl}
-        target: /ssl
-        read_only: true
+      - ./ssl:/ssl:ro
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
@@ -293,9 +290,6 @@ services:
   ### END Pigeon microservices ###
 
 volumes:
-  default-gateway-ssl:
-    driver: local;
-
   kafka_data:
     driver: local
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
+[ -f ssl ] || mkdir ssl
+
 DOCKER_COMPOSE="docker compose -f docker-compose.prod.yml -f docker-compose.integration-test.yml -p pigeon-app-integration-test "
 
 $DOCKER_COMPOSE rm  --stop --force --volumes >/dev/null 2>&1
