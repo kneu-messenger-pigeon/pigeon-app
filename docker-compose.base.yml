@@ -8,9 +8,16 @@ services:
     networks:
       - pigeon
     ports:
-      - "${LISTEN_HTTPS}:443"
+      - "${LISTEN_HTTPS:28443}:443"
+      - "${LISTEN_HTTP:28080}:443"
+    environment:
+        - SSL_FOLDER
     volumes:
-      - ./ssl:/ssl:ro
+      - type: bind
+        source: ${SSL_VOLUME_PATH:-./ssl}
+        target: ${SSL_VOLUME_PATH:-/ssl}
+        read_only: true
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
