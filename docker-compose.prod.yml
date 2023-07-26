@@ -2,7 +2,7 @@ version: "3.9"
 services:
   # common nginx-gateway to have single public https-entrypoint for all services
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:d73e8e890900455c6a968dc94a00403c92650e18c63ce02d55ad0f639942d087
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:e8b2b552c29c54ad76838435aa9b970a42c8c9282a78be546c7e858ebcb834c2
     restart: always
     networks:
       - pigeon
@@ -268,6 +268,8 @@ services:
       - INTERVAL=60
       - IGNORE_SERVICES=init-kafka
     depends_on:
+      gateway:
+        condition: service_healthy
       kafka:
         condition: service_healthy
       authorizer:
