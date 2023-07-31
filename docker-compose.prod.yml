@@ -239,7 +239,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:62cb75ea108b4178baf5c0d7a63f31a876b5f6f5b9a52f9b372f980cd9ede65f
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:b8ac456d82c8afab74a42bc7637c9c7b7e7b8c32fe6ed0c28c8a6f43249e95c0
     restart: always
     networks:
       - pigeon
