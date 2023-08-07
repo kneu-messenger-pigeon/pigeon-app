@@ -4,37 +4,31 @@ services:
   kafka:
     healthcheck:
       interval: 3s
-
-  init-kafka:
-    environment:
-      - START_TIMEOUT=0s
     depends_on:
       primary-dekanat-db:
         condition: service_healthy
       secondary-dekanat-db:
         condition: service_healthy
 
+  init-kafka:
+    environment:
+      - START_TIMEOUT=0s
   kafka-ui:
     profiles:
       - disabled
     ports: []
 
-  healthcheck-pinger:
-    profiles:
-      - disabled
-    environment:
-        - HEALTHCHECK_URL=
-
-  authorizer:
-    ports: []
-
   primary-dekanat-db:
     image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
+    networks:
+        - pigeon
     environment:
       - ISC_PASSWORD=test
 
   secondary-dekanat-db:
     image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
+    networks:
+      - pigeon
     environment:
       - ISC_PASSWORD=test
 
@@ -68,3 +62,18 @@ services:
         condition: service_healthy
 
   ### END section - secondary db importer ###
+
+  authorizer:
+    ports: []
+    environment:
+      - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-test}:8091
+
+  telegram-app:
+    environment:
+      - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-test}:8090
+
+  healthcheck-pinger:
+    profiles:
+      - disabled
+    environment:
+      - HEALTHCHECK_URL=https://${INTEGRATION_TEST_HOST:-integration-test}:8095/test-monitor1
