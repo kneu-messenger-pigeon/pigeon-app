@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:97596743a79429fff5a61cfc88808ce2aa92a6225acb25dc4dcac6fc38e0f8fc
+    image: bitnami/kafka@sha256:d9437ee28f954dbc9ad1681ea6ec4364bb031f0b4d4ee20f06540be0b74a5a22
     restart: always
     networks:
       - pigeon
@@ -35,6 +35,7 @@ services:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_PROCESS_ROLES=broker,controller
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
@@ -243,6 +244,8 @@ services:
     restart: always
     networks:
       - pigeon
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
