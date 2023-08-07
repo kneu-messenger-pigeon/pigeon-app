@@ -1,5 +1,5 @@
 .env
-.env.*
+.env.backup
 !.env.example
 storage.txt
 docker-compose.tmp.yml

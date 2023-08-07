@@ -259,6 +259,8 @@ services:
     restart: always
     networks:
       - pigeon
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
 #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
       - KAFKA_HOST=kafka:9092
