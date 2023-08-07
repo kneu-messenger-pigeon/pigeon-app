@@ -12,7 +12,8 @@ services:
 
   init-kafka:
     environment:
-      - START_TIMEOUT=0s
+      - START_TIMEOUT=3s
+
   kafka-ui:
     profiles:
       - disabled
