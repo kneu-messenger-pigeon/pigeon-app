@@ -1,6 +1,26 @@
 version: "3.9"
 
 services:
+  integration-testing:
+    image: ghcr.io/kneu-messenger-pigeon/integration-testing:main
+    networks:
+      - pigeon
+    environment:
+        - KAFKA_HOST=kafka:9092
+        - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
+        - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+        - DEBUG_UPDATES=true
+        - PUBLIC_URL=${PUBLIC_URL}
+        - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-testing}:8091
+        - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
+        - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
+        - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+    depends_on:
+      init-kafka:
+        condition: service_completed_successfully
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
   kafka:
     healthcheck:
       interval: 3s
@@ -41,6 +61,17 @@ services:
         condition: service_healthy
 
   ### START section - secondary db importer ###
+  secondary-db-watcher:
+    environment:
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+      - PAUSE_AFTER_SUCCESS=60
+      - PAUSE_AFTER_ERROR=2
+      - ERROR_COUNT_TO_BREAK=5
+    depends_on:
+      secondary-dekanat-db:
+        condition: service_healthy
+
+
   secondary-db-disciplines-importer:
     environment:
       - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
@@ -65,16 +96,15 @@ services:
   ### END section - secondary db importer ###
 
   authorizer:
-    ports: []
     environment:
-      - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-test}:8091
+      - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-testing}:8091
 
   telegram-app:
     environment:
-      - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-test}:8090
+      - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-testing}:8090
 
   healthcheck-pinger:
     profiles:
       - disabled
     environment:
-      - HEALTHCHECK_URL=https://${INTEGRATION_TEST_HOST:-integration-test}:8095/test-monitor1
+      - HEALTHCHECK_URL=https://${INTEGRATION_TEST_HOST:-integration-testing}:8095/test-monitor1
