@@ -16,9 +16,10 @@ services:
         - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
         - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
     depends_on:
-      kafka:
-        condition: service_started
-
+      init-kafka:
+        condition: service_completed_successfully
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   kafka:
     healthcheck:
