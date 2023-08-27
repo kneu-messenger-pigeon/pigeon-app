@@ -58,7 +58,7 @@ services:
       - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
       - START_TIMEOUT=4s
       # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
-      - FINISH_TIMEOUT=20s
+      - FINISH_TIMEOUT=0s
     restart: on-failure
     depends_on:
       kafka:
