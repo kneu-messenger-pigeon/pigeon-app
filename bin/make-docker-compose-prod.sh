@@ -7,7 +7,6 @@ TMP_FILE=docker-compose.tmp.yml
 rm -f ${TMP_FILE}
 cp docker-compose.base.yml "${TMP_FILE}"
 
-IMAGE_DIGESTS_REPLACE=""
 yq -e '.services | keys  | .[]' "$TMP_FILE" | while read -r SERVICE;
 do
   IMAGE=$(yq -e ".services.\"${SERVICE}\".image" "$TMP_FILE")
