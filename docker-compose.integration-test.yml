@@ -6,15 +6,18 @@ services:
     networks:
       - pigeon
     environment:
+        - APP_START_DELAY=25
         - KAFKA_HOST=kafka:9092
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+        - SECONDARY_DB_CHECK_INTERVAL=2
         - DEBUG_UPDATES=true
         - PUBLIC_URL=${PUBLIC_URL}
         - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-testing}:8091
         - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
         - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
         - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+        - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=10
     depends_on:
       init-kafka:
         condition: service_completed_successfully
@@ -35,23 +38,34 @@ services:
       - START_TIMEOUT=3s
 
   kafka-ui:
-    profiles:
-      - disabled
+    profiles: [disabled]
     ports: []
 
   primary-dekanat-db:
     image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
     networks:
         - pigeon
+    ports:
+      - "3051:3050"
     environment:
       - ISC_PASSWORD=test
+    healthcheck:
+      interval: 7s
+      timeout: 3s
+      retries: 2
 
   secondary-dekanat-db:
     image: ghcr.io/kneu-messenger-pigeon/dekanat-db-mock:main
     networks:
       - pigeon
+    ports:
+      - "3052:3050"
     environment:
       - ISC_PASSWORD=test
+    healthcheck:
+      interval: 7s
+      timeout: 3s
+      retries: 2
 
   realtime-importer:
     environment:
@@ -64,7 +78,7 @@ services:
   secondary-db-watcher:
     environment:
       - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
-      - PAUSE_AFTER_SUCCESS=60
+      - PAUSE_AFTER_SUCCESS=2
       - PAUSE_AFTER_ERROR=2
       - ERROR_COUNT_TO_BREAK=5
     depends_on:
@@ -102,6 +116,7 @@ services:
   telegram-app:
     environment:
       - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-testing}:8090
+      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=10
 
   healthcheck-pinger:
     profiles:
