@@ -6,7 +6,7 @@ services:
     networks:
       - pigeon
     environment:
-        - APP_START_DELAY=25
+        - APP_START_DELAY=30
         - KAFKA_HOST=kafka:9092
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8

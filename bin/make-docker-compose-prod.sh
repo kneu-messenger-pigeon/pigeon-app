@@ -17,6 +17,15 @@ do
   yq -i ".services.\"${SERVICE}\".image = \"${DIGEST}\"" "${TMP_FILE}"
 done
 
+## get image version for integration test
+echo "# image digest for integration testing" >> $TMP_FILE
+yq -e '.services | .[] | .image' docker-compose.integration-test.yml | grep -v null | sort | uniq | while read -r IMAGE;
+do
+  DIGEST=$(crane digest  --full-ref "$IMAGE" | sed -e 's/index\.docker\.io\/library\///' -e 's/index\.docker\.io\///' )
+  echo "$DIGEST"
+  echo "# ${DIGEST}" >> $TMP_FILE
+done
+
 # validate updated config
 docker compose -f ${TMP_FILE} config > /dev/null
 
