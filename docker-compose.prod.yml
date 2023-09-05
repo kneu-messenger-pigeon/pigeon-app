@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:24fb2d541ff3a45e91f446c33328b6c183935a59ac659009a870aaafd4b67e4d
+    image: bitnami/kafka@sha256:917cad62232edc6ca0cf38712e9b4e4df962f80d5896ae7896468e6d47170d02
     restart: always
     networks:
       - pigeon
@@ -85,7 +85,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:cd86eb3325af530e618304f667c006a0ff38a643ca8c236e9e0d2e8bc8eda78d
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:ae171f16e4031f0831e68f12cba2d6e4db2728bea2c395316d75f502c00d63ca
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -295,3 +295,6 @@ volumes:
 networks:
   pigeon:
     driver: bridge
+# image digest for integration testing
+# ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:c3e0d1bce9f414b622fa495c61b398711e678edf72a12b1f71d238bf8183ea75
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:d0175e59b5c15d0b7a411cf3f863c021ac5e31edbbfb1e569035a86567e83040
