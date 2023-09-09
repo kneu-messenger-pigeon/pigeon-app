@@ -85,7 +85,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:ae171f16e4031f0831e68f12cba2d6e4db2728bea2c395316d75f502c00d63ca
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:0f3e5535c16075241709468ff4409ad613b4ddee2204b170de606c3df9280bba
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -182,7 +182,7 @@ services:
       timeout: 5s
       retries: 3
   storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:801def901f7d2e18f65f0b30da0090d995662cc328f08937f83e0a4cc5c3c1f5
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:69ac374e5a4ad4c85ebc7221f650cc6a7e4644ab8ccc62b320131b0e8e80577d
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:cdd730295c8f9d136d32cf839687320a646d35cda471561d02d263c3134983de
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:f53dfdbbe9572bf27a9170e540dfe295033dd2b7b578dc78fdf0c6b8959a3aa9
     restart: always
     networks:
       - pigeon
