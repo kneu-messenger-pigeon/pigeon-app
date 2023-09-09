@@ -6,7 +6,7 @@ services:
     networks:
       - pigeon
     environment:
-        - APP_START_DELAY=10
+        - APP_START_DELAY=30
         - KAFKA_HOST=kafka:9092
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
@@ -17,7 +17,7 @@ services:
         - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
         - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
         - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-        - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=10
+        - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
     depends_on:
       init-kafka:
         condition: service_completed_successfully
@@ -116,7 +116,7 @@ services:
   telegram-app:
     environment:
       - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-testing}:8090
-      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=10
+      - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
       - DEBUG=true
 
   healthcheck-pinger:
