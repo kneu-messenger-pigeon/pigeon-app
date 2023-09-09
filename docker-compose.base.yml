@@ -193,7 +193,7 @@ services:
       timeout: 5s
       retries: 3
 
-  storage-writer:
+  score-storage-writer:
     image: ghcr.io/kneu-messenger-pigeon/storage-writer:main
     restart: always
     networks:
