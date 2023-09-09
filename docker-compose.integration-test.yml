@@ -6,7 +6,7 @@ services:
     networks:
       - pigeon
     environment:
-        - APP_START_DELAY=30
+        - APP_START_DELAY=10
         - KAFKA_HOST=kafka:9092
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
@@ -38,7 +38,7 @@ services:
       - START_TIMEOUT=3s
 
   kafka-ui:
-    profiles: [disabled]
+    profiles: [kafka-ui-enabled]
     ports: []
 
   primary-dekanat-db:
@@ -117,6 +117,7 @@ services:
     environment:
       - TELEGRAM_URL=http://${INTEGRATION_TEST_HOST:-integration-testing}:8090
       - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=10
+      - DEBUG=true
 
   healthcheck-pinger:
     profiles:
