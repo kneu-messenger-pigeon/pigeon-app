@@ -11,7 +11,7 @@ services:
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DB_CHECK_INTERVAL=2
-        - DEBUG_UPDATES=true
+        - DEBUG_UPDATES=${INTEGRATION_TESTING_DEBUG_UPDATES}
         - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
         - PUBLIC_URL=${PUBLIC_URL}
         - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-testing}:8091
