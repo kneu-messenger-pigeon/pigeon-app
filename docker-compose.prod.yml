@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:6c8c9b979f26dff15f2b3b1da3fc2cfc89040259a82c12d1d19b21ff4190c22a
+    image: bitnami/kafka@sha256:9d989d7559d1f41abfbedb406fc06ab160c5128eaa5958ac9b31353d37a4cd22
     restart: always
     networks:
       - pigeon
