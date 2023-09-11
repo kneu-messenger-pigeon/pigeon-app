@@ -12,12 +12,15 @@ services:
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
         - SECONDARY_DB_CHECK_INTERVAL=2
         - DEBUG_UPDATES=true
+        - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
         - PUBLIC_URL=${PUBLIC_URL}
         - KNEU_BASE_URI=http://${INTEGRATION_TEST_HOST:-integration-testing}:8091
         - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
         - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
         - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
-        - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
+        - PRODUCER_AWS_SECRET_ACCESS_KEY=${PRODUCER_AWS_SECRET_ACCESS_KEY}
+        - PRODUCER_AWS_ACCESS_KEY_ID=${PRODUCER_AWS_ACCESS_KEY_ID}
+        - AWS_REGION=${AWS_REGION}
     depends_on:
       init-kafka:
         condition: service_completed_successfully
