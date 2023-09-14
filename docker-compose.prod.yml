@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:9d989d7559d1f41abfbedb406fc06ab160c5128eaa5958ac9b31353d37a4cd22
+    image: bitnami/kafka@sha256:772344f0e8c59b678e1bd6117aa04e5fb8de41dcd281116974d7a752006b13d5
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:499a03cdf375adb54451c0a4709d977a8f91124f6d929ad0efa0d3a3c6f0355d
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:d59c214906bf9d66872337edb4e1d9b7480bc8eff8c86c8fbd5d82226867bace
     restart: always
     networks:
       - pigeon
