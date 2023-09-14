@@ -1,8 +1,7 @@
 #!/usr/bin/env sh
 [ -d ssl ] || [ -L ssl ] ||  mkdir ssl
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-cd $SCRIPT_DIR/..
+cd $(dirname -- "${BASH_SOURCE[0]}")/..
 
 DOCKER_COMPOSE="docker compose -f docker-compose.base.yml -f docker-compose.integration-test.yml \
 -p pigeon-app-integration-test --profile kafka-ui-enabled \
