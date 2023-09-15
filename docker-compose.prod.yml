@@ -182,7 +182,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:020f26897af158f976e5109b09d49051ec56223e7fe73213bb0447939568318f
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:0b9311e7dbecd8d16722992095d2f10cd9e0ed2d49687404781a43fbddb48562
     restart: always
     networks:
       - pigeon
