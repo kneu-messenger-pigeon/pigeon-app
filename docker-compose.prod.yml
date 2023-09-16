@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:772344f0e8c59b678e1bd6117aa04e5fb8de41dcd281116974d7a752006b13d5
+    image: bitnami/kafka@sha256:4f0e1b8a91dd6f558e771a0cbf0350bf1cd53b3fb9240f094e3b912d1fb9505c
     restart: always
     networks:
       - pigeon
@@ -151,7 +151,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:0ec5ef3e77282b21cb7a87608307f7c0aedae080013094b951646ddf8a30f345
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:1e8bca577a9a989dd08ee931dd27bc8d8f84d18e3cfa3f41a84283c663997d9b
     restart: always
     networks:
       - pigeon
