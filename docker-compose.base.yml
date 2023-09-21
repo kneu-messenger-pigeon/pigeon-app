@@ -290,6 +290,7 @@ services:
       - HEALTHCHECK_PING_URL=${HEALTHCHECK_PING_URL}
       - INTERVAL=60
       - IGNORE_SERVICES=init-kafka
+      - ERROR_THRESHOLD=2
     depends_on:
       gateway:
         condition: service_healthy
