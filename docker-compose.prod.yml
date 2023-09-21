@@ -265,7 +265,7 @@ services:
   ### END section - telegram app ###
 
   healthcheck-pinger:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:29b9021c2c45f1f73c06d0a5746271494e237646257ecff2970530e4cd221f51
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:07ea88dbb128bb81ccf186d533e9b7cb0e2cd9d1cfff3b438b8b4bb0181ce43e
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -274,6 +274,7 @@ services:
       - HEALTHCHECK_PING_URL=${HEALTHCHECK_PING_URL}
       - INTERVAL=60
       - IGNORE_SERVICES=init-kafka
+      - ERROR_THRESHOLD=2
     depends_on:
       gateway:
         condition: service_healthy
