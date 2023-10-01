@@ -159,7 +159,7 @@ services:
   ### END section - secondary db importer ###
 
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
-  ## image: ghcr.io/kneu-messenger-pigeon/realtime-changes-event-sender:main
+  ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
     image: ghcr.io/kneu-messenger-pigeon/realtime-importer:main
     restart: always
