@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:1614b1b172d62650a80eb618eda07e92e2fef9fc421fcaec2b22f7a7eb2074c6
+    image: bitnami/kafka@sha256:e3972e50894c97f8a64d833fc5589bb87fa457ea3660193c60cef57f3c41464c
     restart: always
     networks:
       - pigeon
@@ -299,4 +299,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:648f8174743394bb10f42ad588f36a524b627a2dae9b021f07e64ca1ce3a1390
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:8092dc664fba6241ecc33f76496ff9d90426317eaf3d7a2f4c58d9810b2d8467
