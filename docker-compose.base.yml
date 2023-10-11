@@ -301,6 +301,37 @@ services:
 
   ### END Pigeon microservices ###
 
+  rclone:
+    image: rclone/rclone:1.64.0
+    restart: always
+    volumes:
+      - type: volume
+        source: telegram-app-redis
+        target: /data/telegram-app-redis
+        read_only: true
+
+      - type: volume
+        source: score-storage-redis
+        target: /data/score-storage-redis
+        read_only: true
+    environment:
+      RCLONE_CONFIG_GDRIVE_CLIENT_ID: ${RCLONE_CONFIG_GDRIVE_CLIENT_ID}
+      RCLONE_CONFIG_GDRIVE_ROOT_FOLDER_ID: ${RCLONE_CONFIG_GDRIVE_ROOT_FOLDER_ID}
+      RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE_CONTENTS: ${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE_CONTENTS}
+      RCLONE_CONFIG_GDRIVE_TYPE: drive
+      RCLONE_CONFIG_GDRIVE_SCOPE: drive
+      RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE: /account.json
+    stop_signal: SIGKILL
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        echo "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE_CONTENTS}" > "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE}";
+        while true; do
+          rclone sync -v . gdrive:
+          wget --no-verbose --tries=3 --spider "${HEALTHCHECK_BACKUP_PING_URL}/$?"
+          sleep 12h
+        done
+
 volumes:
   kafka_data:
     driver: local

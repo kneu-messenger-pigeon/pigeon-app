@@ -128,3 +128,7 @@ services:
       - disabled
     environment:
       - HEALTHCHECK_URL=https://${INTEGRATION_TEST_HOST:-integration-testing}:8095/test-monitor1
+
+  rclone:
+    profiles:
+      - disabled
