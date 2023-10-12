@@ -133,7 +133,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:c72d9da454343f1d1aa1421bcfdb292ccf2748cd23e7778433c53f763df318c2
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:53df7eb1e76dbe98ca77068a5ac8490257d37d302c382e00786d6a4c11d8d24d
     restart: always
     networks:
       - pigeon
@@ -151,7 +151,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:139620fea5f0f68f923ae34778af824b9ec3eefc413a05096d2229fba2df6ae8
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:260357245ae7d7f7c77b4d4f6128bdcc382f324e4eb5d642a2b08d367e03da91
     restart: always
     networks:
       - pigeon
