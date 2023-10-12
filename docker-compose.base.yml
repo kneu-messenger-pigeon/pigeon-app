@@ -327,7 +327,7 @@ services:
       - |
         echo "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE_CONTENTS}" > "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE}";
         while true; do
-          rclone sync -v . gdrive:
+          rclone copy -v . gdrive:
           wget --no-verbose --tries=3 --spider "${HEALTHCHECK_BACKUP_PING_URL}/$?"
           sleep 12h
         done
