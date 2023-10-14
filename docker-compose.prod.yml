@@ -328,4 +328,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:282c8088037093a02db4d2cd472ac75e2efa045f3a497ce818988aa0d75b48da
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:ba2de98c899ce9e2779c26a9a96d342bb24a7a2f88f99b21a447d8e0ade84bde
