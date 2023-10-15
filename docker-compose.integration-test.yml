@@ -132,3 +132,8 @@ services:
   rclone:
     profiles:
       - disabled
+
+  victoria-metrics:
+    profiles:
+      - disabled
+    ports: []
