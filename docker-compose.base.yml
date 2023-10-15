@@ -334,11 +334,6 @@ services:
         target: /data/score-storage-redis
         read_only: true
 
-      - type: volume
-        source: victoria-metrics-data
-        target: /data/victoria-metrics-data
-        read_only: true
-
     environment:
       RCLONE_CONFIG_GDRIVE_TYPE: drive
       RCLONE_CONFIG_GDRIVE_SCOPE: drive
