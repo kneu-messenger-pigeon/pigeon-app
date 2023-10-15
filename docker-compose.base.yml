@@ -307,7 +307,7 @@ services:
     volumes:
       - victoria-metrics-data:/victoria-metrics-data
     ports:
-      - "${VICTORIA_METRICS_PORT:-8428}:8428"
+      - "${VICTORIA_METRICS_PORT:-127.0.0.1:8428}:8428"
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=3", "--spider", "http://localhost:8428/-/healthy"]
       interval: 10s
