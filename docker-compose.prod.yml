@@ -182,7 +182,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:039a42e9ee6c7dece607d2887fcdafa003330724896033ff5edc626ab121db5a
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:89a5c14d5e9aa85f42699ff3b91407de236e3a2998b3d4d6d4c9fcf65a7f38af
     restart: always
     networks:
       - pigeon
@@ -311,10 +311,6 @@ services:
       - type: volume
         source: score-storage-redis
         target: /data/score-storage-redis
-        read_only: true
-      - type: volume
-        source: victoria-metrics-data
-        target: /data/victoria-metrics-data
         read_only: true
     environment:
       RCLONE_CONFIG_GDRIVE_TYPE: drive
