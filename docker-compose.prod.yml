@@ -210,7 +210,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:ebab9c6fc4f5ce1d4d5216896bcc52af11bc7323bafe6b4d8ef377c3f510131d
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:a4f8bac64e69a44e4ac2c90bad754ae6221a82679522737c36a3edf860175255
     restart: always
     networks:
       - pigeon
@@ -283,6 +283,19 @@ services:
       authorizer:
         condition: service_healthy
   ### END Pigeon microservices ###
+  victoria-metrics:
+    image: victoriametrics/victoria-metrics@sha256:4713bac84bdb81128cf8c69a9c623ff0619083d0da564848795514ca268beb02
+    restart: always
+    volumes:
+      - victoria-metrics-data:/victoria-metrics-data
+    ports:
+      - "${VICTORIA_METRICS_PORT:-8428}:8428"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=3", "--spider", "http://localhost:8428/-/healthy"]
+      interval: 10s
+      timeout: 3s
+      retries: 2
+      start_period: 5s
   rclone:
     image: rclone/rclone@sha256:696c31597e05c443de736f42e11914bb8327dcbb4f3c24efe1dc0d596f9b841f
     restart: always
@@ -294,6 +307,10 @@ services:
       - type: volume
         source: score-storage-redis
         target: /data/score-storage-redis
+        read_only: true
+      - type: volume
+        source: victoria-metrics-data
+        target: /data/victoria-metrics-data
         read_only: true
     environment:
       RCLONE_CONFIG_GDRIVE_TYPE: drive
@@ -322,6 +339,8 @@ volumes:
   score-storage-redis:
     driver: local
   telegram-app-redis:
+    driver: local
+  victoria-metrics-data:
     driver: local
 networks:
   pigeon:
