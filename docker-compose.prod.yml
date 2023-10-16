@@ -210,7 +210,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:1129fe3e1bd95231b6d860ffdf4ff6f431bf24a4ad8be18d064d2f68654fcd66
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:84270afc535059afa3748accefea96aa31305c937d3080727e520081a2bedfbf
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:221a1dbaf9a56129e07eb5ad2dec8911da9abb4f8a1cf5dfb160425008382795
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:ae280b9d7035e2e0f29bdd123416431f197ba7c6eb3b0bfdb8614e614df82daa
     restart: always
     networks:
       - pigeon
