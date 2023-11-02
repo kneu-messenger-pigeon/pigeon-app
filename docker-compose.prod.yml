@@ -210,7 +210,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:84270afc535059afa3748accefea96aa31305c937d3080727e520081a2bedfbf
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:c4ca5b0c1df5d9652ebc2d86cff44aeb9fdda02c8efc874e79fd5bd9f9c225d5
     restart: always
     networks:
       - pigeon
