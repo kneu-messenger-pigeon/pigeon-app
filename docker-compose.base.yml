@@ -236,6 +236,7 @@ services:
       - KNEU_CLIENT_SECRET=${KNEU_CLIENT_SECRET}
       - APP_SECRET=${APP_SECRET}
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - AUTH_STATE_LIFETIME=${AUTH_STATE_LIFETIME}
     depends_on:
       kafka:
         condition: service_healthy
