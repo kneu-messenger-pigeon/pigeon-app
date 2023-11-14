@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:625dd0ca72cc7fe4fdd169a7874a8558931ad34f876240a9a23c291d41a27f21
+    image: bitnami/kafka@sha256:100d4da8e4db306286c7e3d0b370cf83353a8e9482c142f7202a9412d37f8428
     restart: always
     networks:
       - pigeon
@@ -241,7 +241,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:2945df99e14b1d739ebe33d685105f9fb934bfdfc39c0fe3feec4505d04cc3e3
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:887679022b5635dcb09c697dd84c330f784c3c528524d72613c48875c22ff766
     restart: always
     networks:
       - pigeon
@@ -349,4 +349,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:d4b2d425f7d9145acbb800edbf5b9f17485870a15d29baa4323a128a0217204c
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:12076b70dc5f1f0ea38a1a8f5995effeccf2e40a00d242fd21a7139c841f7948
