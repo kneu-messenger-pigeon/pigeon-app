@@ -60,7 +60,7 @@ jobs:
 
       - name: Execute integration test on remote server
         uses: appleboy/ssh-action@v0.1.10
-        timeout-minutes: 5
+        timeout-minutes: 10
         env:
           INFISICAL_TOKEN: ${{ secrets.INFISICAL_TOKEN_INTEGRATION_TEST }}
           WORKDIR: ${{ vars.REMOTE_INTEGRATION_TEST_DIR }}
