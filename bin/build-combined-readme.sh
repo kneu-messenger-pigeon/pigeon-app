@@ -9,6 +9,8 @@ packagesListWritten=false
 
 SERVICES=$(grep -o "ghcr\.io/.*" docker-compose.base.yml | sed 's/ghcr\.io\///')
 
+echo -n "" > .service-list.txt
+
 while IFS= read -r LINE; do
   if ! $serviceListStarted && ! $packagesListStarted; then
       echo "$LINE"
@@ -26,6 +28,7 @@ while IFS= read -r LINE; do
         >&2 echo "Put service ${REPO} to readme"
         IFS=":" read -r REPO_NAME BRANCH <<< "$REPO"
 
+        echo "${REPO_NAME}\$" >> .service-list.txt
         BRANCH=${BRANCH:-main}
         PACKAGE_NAME="${REPO_NAME//kneu-messenger-pigeon\//}"
 
@@ -56,13 +59,13 @@ while IFS= read -r LINE; do
           >&2 echo "Get packages of service ${REPO}"
 
           IFS=":" read -r REPO_NAME BRANCH <<< "$REPO"
-
           GO_MOD_URL="https://raw.githubusercontent.com/${REPO_NAME}/${BRANCH}/go.mod"
 
-          # print used pckages
+          # print used packages
           curl --fail "$GO_MOD_URL" 2> /dev/null | \
             grep -v "module " | \
             grep -o "github.com/kneu-messenger-pigeon/\S*\|github.com/\S*kneu\S*" | \
+            grep -v -E -f .service-list.txt - | \
             sed 's/github\.com\///' || true
 
       done <<< "$SERVICES" | sort -r -u | \
@@ -91,6 +94,7 @@ while IFS= read -r LINE; do
 
 done<README.md >tmp.README.md
 
+#rm .service-list.txt
 
 if ! $serviceListWritten; then
   echo "Service list was not written. Start tag not found"
