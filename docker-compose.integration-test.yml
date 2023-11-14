@@ -22,6 +22,7 @@ services:
         - PRODUCER_AWS_ACCESS_KEY_ID=${PRODUCER_AWS_ACCESS_KEY_ID}
         - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
         - AWS_REGION=${AWS_REGION}
+        - AUTH_STATE_LIFETIME=${AUTH_STATE_LIFETIME}
     depends_on:
       init-kafka:
         condition: service_completed_successfully
