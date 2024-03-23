@@ -9,5 +9,5 @@ DOCKER_COMPOSE="docker compose -f docker-compose.base.yml -f docker-compose.inte
 
 
 $DOCKER_COMPOSE down --volumes --remove-orphans --timeout 30
-$DOCKER_COMPOSE up --pull --build --force-recreate -d --scale integration-testing=0
+$DOCKER_COMPOSE up --pull missing --build --force-recreate -d --scale integration-testing=0
 
