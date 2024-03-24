@@ -2,7 +2,7 @@ version: "3.9"
 services:
   # common nginx-gateway to have single public https-entrypoint for all services
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:57ddfae3f61d4aa4456cc54a3ffa8ecc8ff21d06166bc9eb79591c933e9823bd
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:2a1bfdb56d9d85645c2eb7c04d552b5baace73d5c6493fdf37ae63c9d648f6d6
     restart: always
     networks:
       - pigeon
@@ -278,7 +278,7 @@ services:
     ports:
       - "${VICTORIA_METRICS_PORT:-127.0.0.1:8428}:8428"
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=3", "--spider", "http://localhost:8428/-/healthy"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=3", "--spider", "http://127.0.0.1:8428/-/healthy"]
       interval: 10s
       timeout: 3s
       retries: 2
