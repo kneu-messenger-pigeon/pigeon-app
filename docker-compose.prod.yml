@@ -23,7 +23,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka@sha256:100d4da8e4db306286c7e3d0b370cf83353a8e9482c142f7202a9412d37f8428
+    image: bitnami/kafka@sha256:fb4bc691dcb732e0944a8eb2af278fecf2628bbff8a73dbb9e508c917619e588
     restart: always
     networks:
       - pigeon
@@ -85,7 +85,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:07f2dad483a19ff4b6ccd5c11d068a78a2b0eede5eae21efc91985c735eb0f50
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:45475da5181aa626e300e2aa69fffa39bfd6957428136eb03b1f848963ff1369
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -182,7 +182,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:cceb479d3b265f286dd8df011a86952501051f1f63471354baf8b6583645518a
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:d066fd0efebf2407a8a98020005f2dedeeac1558d4f8ea44e64d578077c40576
     restart: always
     networks:
       - pigeon
@@ -269,7 +269,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:f52723a08a44083f0500af83e9eeaad688b56bbba70af53e6b1ff0a4b4184773
+    image: victoriametrics/victoria-metrics@sha256:e3e18b05a2c056ac2daa0215b284f0583dcb47c8a0db2965a8eaf9f219535734
     restart: always
     networks:
       - pigeon
@@ -349,4 +349,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:6eabd34e6e2664db762fc3058279f46a4ae10aba64767b52f863857cb0e6c4fb
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:07fc768fd0fdfc02fd09bdde46292c02b88a5cfe19a906e281b788c7c582ffff
