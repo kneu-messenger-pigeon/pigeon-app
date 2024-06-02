@@ -43,7 +43,7 @@ jobs:
       - name: Write OVPN config
         run: printf "${{ vars.OVPN_CONFIG }}" > .openvpn-client.ovpn
       - name: Connect to VPN
-        uses: kota65535/github-openvpn-connect-action@v2
+        uses: kota65535/github-openvpn-connect-action@v3
         with:
           config_file: .openvpn-client.ovpn
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
