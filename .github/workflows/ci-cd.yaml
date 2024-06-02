@@ -25,11 +25,11 @@ jobs:
     outputs:
       change_detected: ${{ steps.detect-changes.outputs.change_detected }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: frenck/action-setup-yq@v1
       - uses: imjasonh/setup-crane@v0.1
       - name: Log in to Docker Hub
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -42,7 +42,7 @@ jobs:
         id: detect-changes
         run: git diff --name-status docker-compose.prod.yml | grep docker-compose.prod.yml && echo "change_detected=1" >> $GITHUB_OUTPUT || echo "No changes"
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: docker-compose.prod.yml
           path: docker-compose.prod.yml
@@ -64,11 +64,11 @@ jobs:
       cancel-in-progress: false
     if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
           token: ${{ secrets.TOKEN_TO_RUN_GITHUB_ACTION }}
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: docker-compose.prod.yml
 
