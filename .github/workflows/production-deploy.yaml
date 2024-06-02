@@ -36,7 +36,7 @@ jobs:
       SCRIPT_URL: https://${{ github.token }}@raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/bin/run-production.sh
     steps:
       - uses: frenck/action-setup-yq@v1
-      - uses: awalsh128/cache-apt-pkgs-action@v1.3.0
+      - uses: awalsh128/cache-apt-pkgs-action@latest
         with:
           packages: openvpn openvpn-systemd-resolved
           version: 1.0
