@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   integration-testing:
     image: ghcr.io/kneu-messenger-pigeon/integration-testing:main
