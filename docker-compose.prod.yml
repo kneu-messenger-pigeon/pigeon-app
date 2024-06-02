@@ -64,7 +64,7 @@ services:
       kafka:
         condition: service_started
   kafka-ui:
-    image: provectuslabs/kafka-ui@sha256:477d4c3d896a0deefdcccf0e08e8fb0d4258e5340d34f3c3513f75073de5835c
+    image: provectuslabs/kafka-ui@sha256:8f2ff02d64b0a7a2b71b6b3b3148b85f66d00ec20ad40c30bdcd415d46d31818
     ports:
       - "${LISTEN_KAFKA_UI:-127.0.0.1:8892}:8080"
     networks:
@@ -241,7 +241,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:922941fd4d203ca71f5165dc8996d2afe1720280b167e5c018e50db26bd9e0b3
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:9b797ec4a089858a3ab909694d780c30055a34a82f6c37b1989f062e27daa313
     restart: always
     networks:
       - pigeon
@@ -269,7 +269,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:e3e18b05a2c056ac2daa0215b284f0583dcb47c8a0db2965a8eaf9f219535734
+    image: victoriametrics/victoria-metrics@sha256:91d0456cc064e195869175074ced2a6849d72531613b320492698e5fe935d10a
     restart: always
     networks:
       - pigeon
