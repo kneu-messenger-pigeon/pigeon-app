@@ -181,7 +181,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:d066fd0efebf2407a8a98020005f2dedeeac1558d4f8ea44e64d578077c40576
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:ab912a48828325096e6bdd3fc5066de5d5198b4d5b22fe5e85dcd72643eed20d
     restart: always
     networks:
       - pigeon
@@ -268,7 +268,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:91d0456cc064e195869175074ced2a6849d72531613b320492698e5fe935d10a
+    image: victoriametrics/victoria-metrics@sha256:98473ba2a16472e0e2a8f5928014e510f28d55cdb8fa504b8210a4b097f28f3a
     restart: always
     networks:
       - pigeon
