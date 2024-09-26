@@ -84,7 +84,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:45475da5181aa626e300e2aa69fffa39bfd6957428136eb03b1f848963ff1369
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:f1bb298fe0297232f7252c33188c118b0ab7f29540db1be7d15d36944cd75e4d
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -268,7 +268,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:98473ba2a16472e0e2a8f5928014e510f28d55cdb8fa504b8210a4b097f28f3a
+    image: victoriametrics/victoria-metrics@sha256:4d7f1b98e9a73431a0c4ff156bf86fdf23679fc7cc06a4b3cbb042e5d03c101c
     restart: always
     networks:
       - pigeon
