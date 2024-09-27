@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:0ea8712bd97426920110bbb0d43e2971b6e5a1550313dfe2204a46803ee2473b
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:0b4a25d6048a481335ad047513aed771f6a36a6694c41c8865b5a6fffb3dfe93
     restart: always
     networks:
       - pigeon
@@ -348,4 +348,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:07fc768fd0fdfc02fd09bdde46292c02b88a5cfe19a906e281b788c7c582ffff
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:f800dda9eaf00929819a842f67e9cc6a5bc04f34c390f0b38ac8077ee70b9907
