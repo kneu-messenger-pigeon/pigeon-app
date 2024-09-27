@@ -84,7 +84,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:e9e3ac335ba6688142e64cf0db254ad169be5fa7462b8b9ba0108d43d4dd9305
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:5cac831fd5a84e527d0868612b1c3479847add593da391c3a61366f119eae1b9
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
