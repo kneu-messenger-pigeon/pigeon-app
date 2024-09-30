@@ -84,7 +84,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:09bf63f209fd45384fbd62b4022f880faf8ae2b52f45b9e06ebb9e0daed98590
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:edea0f19c8fd7bbc5d0f3d5600fd96f09681fd72006e07dab08b54c11465e2cc
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -118,7 +118,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-lessons-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:71588918068825929d5fa447ec6436ee57ea3c2bbf7a276e9f85887f98ca7e85
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:e7999ebd07c63c35ef334462481b205d649244c30f8c2658626382126c7d9744
     restart: always
     networks:
       - pigeon
@@ -132,7 +132,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:a68980dd3f26fac2c373ec9e466642fc23e6833b4c8d4ca73585522ce031d7df
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:1c8dd8c48085cc92d45fd5f8dba0af642100d7b10b4ff7a368647342fd1f1ca2
     restart: always
     networks:
       - pigeon
@@ -150,7 +150,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:94396cfaaa3b3b3b18d819df5a1561b4a29880894295abecf57cc5a7a7e4312f
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:1a2a163bb73f65e5836937466b05bd03874ea16f4f3006aca26221c1ebd9f64c
     restart: always
     networks:
       - pigeon
@@ -209,7 +209,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:5f4258ae104719e1d6dbdd927931c76a93b955aade923618432663fcf5f11e65
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:d45d08beb3036b7cde4bf96f8b9d0b6a48895ff9b67c4fff2c1f9c1ffafb8d77
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:3d8458758dce6d3baeae755c2def83ec57f6405bb45598cfe5add220e6d23b22
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:8631ed405fe71738167a9b27a6742555e69db5aa656082fe793884093a3490aa
     restart: always
     networks:
       - pigeon
@@ -348,4 +348,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:0df501f4ddebecbf23ff9f869b6f6cac9fa09b616c6dd9cba5c9410846595ee1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:eb583ba9262e0d61a6b9bf4796530ff71c7a033bbfdca2c7a2b7b311460cf92f
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:2abdb4a0ec48d25efcc884aa94107aded1ac019fe165f08e62a9cdef035a8b0e
