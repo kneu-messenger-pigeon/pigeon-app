@@ -181,7 +181,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:b32494ffe71af3f4717ddf173de4394fbf167ea30295e5b1a2bca0a3546d0330
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:1841d40833b9809affa4c92f6ae51b3994357a31a461a533ba3e31dfa9c24d07
     restart: always
     networks:
       - pigeon
@@ -195,7 +195,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:cf96c892d8711918ad6eeb6e65cc3c47510f8a0225b6b135659dc3f6b5876564
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:457b34c9b5315d7635c56aefbdb692032ea9b6f0b9399ef248ba552780481f8c
     restart: always
     networks:
       - pigeon
@@ -348,4 +348,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:f800dda9eaf00929819a842f67e9cc6a5bc04f34c390f0b38ac8077ee70b9907
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:eb583ba9262e0d61a6b9bf4796530ff71c7a033bbfdca2c7a2b7b311460cf92f
