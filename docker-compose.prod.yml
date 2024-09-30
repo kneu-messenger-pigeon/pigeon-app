@@ -150,7 +150,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:9428cc2d8cb7f4931876676b240ae504899ea242884cd88e9902093319c1bea7
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:94396cfaaa3b3b3b18d819df5a1561b4a29880894295abecf57cc5a7a7e4312f
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:0b4a25d6048a481335ad047513aed771f6a36a6694c41c8865b5a6fffb3dfe93
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:3d8458758dce6d3baeae755c2def83ec57f6405bb45598cfe5add220e6d23b22
     restart: always
     networks:
       - pigeon
@@ -347,5 +347,5 @@ networks:
   pigeon:
     driver: bridge
 # image digest for integration testing
-# ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:dcef35f50cc655ce7a6be1737fea5b9e0e470f2ed62f9e528067900ab96158e1
+# ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:0df501f4ddebecbf23ff9f869b6f6cac9fa09b616c6dd9cba5c9410846595ee1
 # ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:eb583ba9262e0d61a6b9bf4796530ff71c7a033bbfdca2c7a2b7b311460cf92f
