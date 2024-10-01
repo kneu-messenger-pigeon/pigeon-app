@@ -118,7 +118,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-lessons-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:e7999ebd07c63c35ef334462481b205d649244c30f8c2658626382126c7d9744
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-lessons-importer@sha256:906498f52fb59a0deda88350ec13ca863b4a15828725e0acb8e65addc8ad8682
     restart: always
     networks:
       - pigeon
@@ -181,7 +181,7 @@ services:
       timeout: 5s
       retries: 3
   score-storage-writer:
-    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:1841d40833b9809affa4c92f6ae51b3994357a31a461a533ba3e31dfa9c24d07
+    image: ghcr.io/kneu-messenger-pigeon/storage-writer@sha256:45070d8ee1bfe74469491f8620d727de4765e6c3b3f5230b4919d7c7d763e55a
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:801c16cf3b5dc785f1562196612e8624080f360ed1e8a1578a8a7e8a54882509
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:39472e9145ae256e0e7bc6f4ed387cca6baa8fe5536f2de72ad6cf247ea1ea07
     restart: always
     networks:
       - pigeon
