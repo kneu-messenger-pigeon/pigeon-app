@@ -84,7 +84,7 @@ services:
 
   ### START Pigeon microservices ###
   secondary-db-watcher:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:edea0f19c8fd7bbc5d0f3d5600fd96f09681fd72006e07dab08b54c11465e2cc
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-watcher@sha256:6b52dc02609738e569c17dfaa74c15492e8a9bd36495aba95273abe4badac54c
     restart: always
     volumes:
       - "secondary-db-watcher-storage:/storage"
@@ -104,7 +104,7 @@ services:
       - "host.docker.internal:host-gateway"
   ### START section - secondary db importer ###
   secondary-db-disciplines-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:536f64a568e9d9d75705f6dc1f7cbdccfb4c8d24d133d267e8396ea6d6d5bdd0
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-disciplines-importer@sha256:2f9bf8677863cf694caaec26a4fdf1150ae26382d1161166946e318370c947ae
     restart: always
     networks:
       - pigeon
@@ -132,7 +132,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   secondary-db-scores-importer:
-    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:1c8dd8c48085cc92d45fd5f8dba0af642100d7b10b4ff7a368647342fd1f1ca2
+    image: ghcr.io/kneu-messenger-pigeon/secondary-db-scores-importer@sha256:be11d4984b0ad67cc2ec1aed6c12950e5676241d98652b91a1202304873009d4
     restart: always
     networks:
       - pigeon
@@ -195,7 +195,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:457b34c9b5315d7635c56aefbdb692032ea9b6f0b9399ef248ba552780481f8c
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:52cc40b5b56ae766471b46dfff79b310ad7d8be7940878454d9022e971bbf7b4
     restart: always
     networks:
       - pigeon
@@ -209,7 +209,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:d45d08beb3036b7cde4bf96f8b9d0b6a48895ff9b67c4fff2c1f9c1ffafb8d77
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:4687c1134416fbfdbb825d8e5bf74f034c1062252c0d9432f547f7d8e08d8186
     restart: always
     networks:
       - pigeon
