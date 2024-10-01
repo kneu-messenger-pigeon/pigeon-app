@@ -150,7 +150,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:e6afe46a748bb0e4c47eba085a870dcb085e5c64c7c1ae39406c7d9d4c62fc8c
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:fa72f97b85b2d104cc9349e0135dab72d597027e88f97f3ab4184304a6b58c18
     restart: always
     networks:
       - pigeon
