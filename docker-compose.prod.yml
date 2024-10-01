@@ -283,7 +283,7 @@ services:
       retries: 2
       start_period: 5s
   healthcheck-pinger:
-    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:07ea88dbb128bb81ccf186d533e9b7cb0e2cd9d1cfff3b438b8b4bb0181ce43e
+    image: ghcr.io/kneu-messenger-pigeon/healthcheck-pinger@sha256:9150189bf9dddb296c93a00fd235a5df2b1a97faa73f6769ac6c20a5a820d085
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
