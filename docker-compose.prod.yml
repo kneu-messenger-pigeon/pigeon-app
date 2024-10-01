@@ -150,7 +150,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:a3d236207221b961103dbd22a05e778c2c125b9b3ec0f877b8c745153fa2670d
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:67bbf1672f16f54fc21ef1b75d593803b99539ac13e07a66269c44b1c089da53
     restart: always
     networks:
       - pigeon
@@ -348,4 +348,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:0df501f4ddebecbf23ff9f869b6f6cac9fa09b616c6dd9cba5c9410846595ee1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:2abdb4a0ec48d25efcc884aa94107aded1ac019fe165f08e62a9cdef035a8b0e
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:7bf93981df8bf57d727b9d3d6fffacfdf54c24566c6c4e23bc1e46a38507fe3d
