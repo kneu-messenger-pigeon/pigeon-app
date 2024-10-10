@@ -42,9 +42,9 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
       test: ["CMD", "/bitnami/kafka/healthcheck.sh"]
-      interval: 10s
-      timeout: 3s
-      retries: 2
+      interval: 30s
+      timeout: 10s
+      retries: 5
       start_period: 45s
   init-kafka:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:50dff238543f1a12f56db18eb7b422ec1843f56848879ade75081b33001d5897
@@ -268,7 +268,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:adbcd0bf9c6c66cdb7b9f939b720619c43d90541b7a01519d9bab35f67979a14
+    image: victoriametrics/victoria-metrics@sha256:4a03f2881108571949f83764069f5ecc325de5cbbae676c2742f0a2e7523a682
     restart: always
     networks:
       - pigeon
