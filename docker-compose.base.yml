@@ -45,9 +45,9 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
       test: ["CMD", "/bitnami/kafka/healthcheck.sh"]
-      interval: 10s
-      timeout: 3s
-      retries: 2
+      interval: 30s
+      timeout: 10s
+      retries: 5
       start_period: 45s
 
   init-kafka:
