@@ -6,8 +6,8 @@ services:
     environment:
         - APP_START_DELAY=30
         - KAFKA_HOST=kafka:9092
-        - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
-        - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+        - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
+        - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
         - SECONDARY_DB_CHECK_INTERVAL=2
         - DEBUG_UPDATES=${INTEGRATION_TESTING_DEBUG_UPDATES}
         - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=30
@@ -72,7 +72,7 @@ services:
 
   realtime-importer:
     environment:
-      - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8
+      - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
     depends_on:
       primary-dekanat-db:
         condition: service_healthy
@@ -80,7 +80,7 @@ services:
   ### START section - secondary db importer ###
   secondary-db-watcher:
     environment:
-      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
       - PAUSE_AFTER_SUCCESS=2
       - PAUSE_AFTER_ERROR=2
       - ERROR_COUNT_TO_BREAK=5
@@ -91,21 +91,21 @@ services:
 
   secondary-db-disciplines-importer:
     environment:
-      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
     depends_on:
       secondary-dekanat-db:
         condition: service_healthy
 
   secondary-db-lessons-importer:
     environment:
-      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
     depends_on:
       secondary-dekanat-db:
         condition: service_healthy
 
   secondary-db-scores-importer:
     environment:
-      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8
+      - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
     depends_on:
       secondary-dekanat-db:
         condition: service_healthy
