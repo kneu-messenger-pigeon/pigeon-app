@@ -195,7 +195,7 @@ services:
       score-storage-redis:
         condition: service_healthy
   score-storage-api:
-    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:685ac7d63ababef65564f967ca29931778f8449aa25ccc697eba1da58e8ecc8d
+    image: ghcr.io/kneu-messenger-pigeon/score-storage-api@sha256:5c4336ff6b5ef647fdf091711fbff402f00ddb892698dda987b173364db4e2b5
     restart: always
     networks:
       - pigeon
