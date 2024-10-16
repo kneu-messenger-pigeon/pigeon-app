@@ -18,6 +18,9 @@ Architecturally it is designed as a cross-platform solution (for any messanger).
     -  Test application build with integration test
     -  Commit new image hashes into docker-conpose.prod.yml
     -  Deploy prod
+  7. Reliability monitoring: service health check-pinger based connected to docker health check and send health-signal to healthcheck.io service.
+  8. Reliability and stability monitoring: VictoriaMetrics with Grafana dashboard and alerting by key product metrics.
+  9. Codecov report for code coverage analysis.
 
 ## Microservices
 [comment]: <> (Start service list)
