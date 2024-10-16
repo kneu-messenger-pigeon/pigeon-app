@@ -2,6 +2,23 @@
 [![CI/CD - integration build, testing and deploy](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/ci-cd.yaml)
 [![Deploy production](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/production-deploy.yaml/badge.svg)](https://github.com/kneu-messenger-pigeon/pigeon-app/actions/workflows/production-deploy.yaml)
 
+Implementation of a bot that sends students notifications with new scores added to the University's electronic journal (based on the engine "Dekanat").
+Architecturally it is designed as a cross-platform solution (for any messanger). It provides an internal event bus (Kafka) with new scores events, score data  REST API, and a framework to make a bot for any messengers. For now, only the Telegram bot is implemented.
+
+## Key points
+ 1. Microservice architecture
+ 2. Event-based architecture: Kafka event bus and SQS.
+ 3. REST API
+ 4. 100% Unit test coverage
+ 5. Automatical integration testing. Includes browser automatization for JavaScript.
+ 6. CI/CD flow:
+    -  Microservice unit test
+    -  Microservice image build
+    -  Build new application docker-compose.yml with latest sha256-hash of docker-images
+    -  Test application build with integration test
+    -  Commit new image hashes into docker-conpose.prod.yml
+    -  Deploy prod
+
 ## Microservices
 [comment]: <> (Start service list)
 
