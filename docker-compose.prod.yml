@@ -209,7 +209,7 @@ services:
   ### END section - score storage ###
 
   authorizer:
-    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:4687c1134416fbfdbb825d8e5bf74f034c1062252c0d9432f547f7d8e08d8186
+    image: ghcr.io/kneu-messenger-pigeon/authorizer@sha256:5c6413e39c0f3f6cf1f522b2022c115c7bc6560ed7d5f68a2c2e07d61b8af887
     restart: always
     networks:
       - pigeon
@@ -240,7 +240,7 @@ services:
       timeout: 5s
       retries: 3
   telegram-app:
-    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:39472e9145ae256e0e7bc6f4ed387cca6baa8fe5536f2de72ad6cf247ea1ea07
+    image: ghcr.io/kneu-messenger-pigeon/telegram-app@sha256:e0f3d47aa55cc2706630b1bf516864ac46f5c2fb23b3edc848cbc305be69feaf
     restart: always
     networks:
       - pigeon
@@ -268,7 +268,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:f6e5322b315795ae2fec494c1d1c94b2e0325b789fead60ef3a13fccdefcd81e
+    image: victoriametrics/victoria-metrics@sha256:1676d73b39297a938eb60f0894b44b264152a6a38074fa5de99d9bdc425deb65
     restart: always
     networks:
       - pigeon
