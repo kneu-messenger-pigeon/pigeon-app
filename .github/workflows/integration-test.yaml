@@ -11,6 +11,8 @@ on:
     secrets:
       OVPN_CLIENT_KEY:
         required: true
+      OVPN_TLS_CRYPT_KEY:
+        required: true
       SSH_KEY:
         required: true
       INFISICAL_TOKEN_INTEGRATION_TEST:
@@ -48,6 +50,7 @@ jobs:
         with:
           config_file: .openvpn-client.ovpn
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+          tls_crypt_key: ${{ secrets.OVPN_TLS_CRYPT_KEY }}
       ## Finish  section with VPN connections
       - name: rsync deployments
         uses: burnett01/rsync-deployments@6.0.0

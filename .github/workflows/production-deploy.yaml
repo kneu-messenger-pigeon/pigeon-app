@@ -47,6 +47,7 @@ jobs:
         with:
           config_file: .openvpn-client.ovpn
           client_key: ${{ secrets.OVPN_CLIENT_KEY }}
+          tls_crypt_key: ${{ secrets.OVPN_TLS_CRYPT_KEY }}
       - name: Execute deploy on production server
         uses: appleboy/ssh-action@v0.1.10
         env:
