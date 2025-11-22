@@ -294,7 +294,7 @@ services:
   ### START section - utilities ###
 
   victoria-metrics:
-    image: victoriametrics/victoria-metrics:stable
+    image: victoriametrics/victoria-metrics:latest
     restart: always
     networks:
       - pigeon
