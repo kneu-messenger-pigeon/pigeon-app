@@ -5,7 +5,7 @@ services:
       - pigeon
     environment:
         - APP_START_DELAY=30
-        - KAFKA_HOST=kafka:9092
+        - KAFKA_HOST=redpanda:9092
         - PRIMARY_DEKANAT_DB_DSN=sysdba:test@primary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
         - SECONDARY_DEKANAT_DB_DSN=sysdba:test@secondary-dekanat-db/dekanat.fdb?charset=UTF8&auth_plugin_name=Srp
         - SECONDARY_DB_CHECK_INTERVAL=2
@@ -27,7 +27,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  kafka:
+  redpanda:
     healthcheck:
       interval: 3s
     depends_on:
@@ -40,8 +40,8 @@ services:
     environment:
       - START_TIMEOUT=3s
 
-  kafka-ui:
-    profiles: [kafka-ui-enabled]
+  redpanda-console:
+    profiles: [redpanda-ui-enabled]
     ports: []
 
   primary-dekanat-db:

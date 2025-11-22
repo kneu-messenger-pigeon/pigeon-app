@@ -25,7 +25,7 @@ services:
 
   ### START section - kafka and related ##
   redpanda:
-    image: docker.redpanda.com/vectorized/redpanda:latest
+    image: redpandadata/redpanda:latest
     command:
       - redpanda
       - start
@@ -55,11 +55,8 @@ services:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka:main
     networks:
       - pigeon
-    volumes:
-      - "kafka_data:/bitnami"
     environment:
       - KAFKA_HOST=redpanda:9092
-      - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
       - START_TIMEOUT=4s
       # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
       - FINISH_TIMEOUT=0s
@@ -69,7 +66,7 @@ services:
         condition: service_started
 
   redpanda-console:
-    image: docker.redpanda.com/redpandadata/console:latest
+    image: redpandadata/console:latest
     environment:
       - KAFKA_BROKERS=redpanda:9092
     ports:
