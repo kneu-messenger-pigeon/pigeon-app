@@ -185,6 +185,11 @@ services:
       - score-storage-redis:/data
     networks:
       - pigeon
+    command:
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --save "3600 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -248,6 +253,11 @@ services:
       - telegram-app-redis:/data
     networks:
       - pigeon
+    command:
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --save "3600 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
