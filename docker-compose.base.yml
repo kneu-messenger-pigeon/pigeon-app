@@ -190,6 +190,7 @@ services:
       --appendonly yes
       --appendfsync everysec
       --save "3600 1000"
+      --save "43200 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -258,6 +259,7 @@ services:
       --appendonly yes
       --appendfsync everysec
       --save "3600 100"
+      --save "43200 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
