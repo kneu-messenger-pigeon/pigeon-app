@@ -1,7 +1,7 @@
 services:
   # common nginx-gateway to have single public https-entrypoint for all services
   gateway:
-    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:879bed409f0431cbb9f2fcb0fd66ed8326160598bffcc39e2cce12153583f412
+    image: ghcr.io/kneu-messenger-pigeon/gateway@sha256:da230c9f7be165ba62c00afe7f1ad4e2763e7a369fb02085b31262d2a4360323
     restart: always
     networks:
       - pigeon
@@ -34,9 +34,6 @@ services:
       - --check=false
       - --kafka-addr PLAINTEXT://0.0.0.0:9092
       - --advertise-kafka-addr PLAINTEXT://redpanda:9092
-    ports:
-      - "9092:9092"
-      - "9644:9644" # admin API
     volumes:
       - redpanda_data:/var/lib/redpanda/data
     networks:
