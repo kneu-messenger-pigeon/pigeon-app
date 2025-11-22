@@ -21,65 +21,55 @@ services:
       authorizer:
         condition: service_started
   ### START section - kafka and related ##
-  kafka:
-    image: bitnami/kafka@sha256:fb4bc691dcb732e0944a8eb2af278fecf2628bbff8a73dbb9e508c917619e588
-    restart: always
+  redpanda:
+    image: redpandadata/redpanda@sha256:5e6ef104f48f430c25b5ddf1e1bef83394086d51ad6e752b78d10a018f74833d
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+      - --kafka-addr PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr PLAINTEXT://redpanda:9092
+    ports:
+      - "9092:9092"
+      - "9644:9644" # admin API
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
     networks:
       - pigeon
-    volumes:
-      - "kafka_data:/bitnami"
-    environment:
-      - KAFKA_ENABLE_KRAFT=yes
-      - KAFKA_CFG_NODE_ID=1
-      - KAFKA_BROKER_ID=1
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
-      - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
-      test: ["CMD", "/bitnami/kafka/healthcheck.sh"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD", "curl", "-f", "http://localhost:9644/v1/status/ready"]
+      interval: 10s
+      timeout: 5s
       retries: 5
       start_period: 45s
   init-kafka:
     image: ghcr.io/kneu-messenger-pigeon/init-kafka@sha256:50dff238543f1a12f56db18eb7b422ec1843f56848879ade75081b33001d5897
     networks:
       - pigeon
-    volumes:
-      - "kafka_data:/bitnami"
     environment:
-      - KAFKA_HOST=kafka:9092
-      - CREATE_HEALTHCHECK_SCRIPT=/bitnami/kafka/healthcheck.sh
+      - KAFKA_HOST=redpanda:9092
       - START_TIMEOUT=4s
       # must be greater then services.kafka.healthcheck.interval (don't exit container until healthcheck done for Kafka service)
       - FINISH_TIMEOUT=0s
     restart: on-failure
     depends_on:
-      kafka:
+      redpanda:
         condition: service_started
-  kafka-ui:
-    image: provectuslabs/kafka-ui@sha256:8f2ff02d64b0a7a2b71b6b3b3148b85f66d00ec20ad40c30bdcd415d46d31818
+  redpanda-console:
+    image: redpandadata/console@sha256:8f171b3987b63c0ff6cf61e181ee3a92f931d10af6b39453c196acb60efdbd7d
+    environment:
+      - KAFKA_BROKERS=redpanda:9092
     ports:
       - "${LISTEN_KAFKA_UI:-127.0.0.1:8892}:8080"
+    depends_on:
+      - redpanda
     networks:
       - pigeon
-    restart: unless-stopped
-    environment:
-      - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
-    depends_on:
-      kafka:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "nc", "-vz", "localhost", "8080"]
-      interval: 15s
-      timeout: 5s
-      retries: 3
   ### END section - kafka and related ##
 
   ### START Pigeon microservices ###
@@ -92,13 +82,13 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - PAUSE_AFTER_SUCCESS=600
       - PAUSE_AFTER_ERROR=60
       - ERROR_COUNT_TO_BREAK=3
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -110,10 +100,10 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -124,10 +114,10 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -138,10 +128,10 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - SECONDARY_DEKANAT_DB_DSN=${SECONDARY_DEKANAT_DB_DSN}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -158,14 +148,14 @@ services:
       - "realtime-importer-storage:/storage"
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - PRIMARY_DEKANAT_DB_DSN=${PRIMARY_DEKANAT_DB_DSN}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_SQS_QUEUE_URL=${AWS_SQS_QUEUE_URL}
       - AWS_REGION=${AWS_REGION}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
   ### START section - score storage ###
   score-storage-redis:
@@ -175,6 +165,7 @@ services:
       - score-storage-redis:/data
     networks:
       - pigeon
+    command: redis-server --appendonly yes --appendfsync everysec --save "3600 1000" --save "43200 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -187,10 +178,10 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - REDIS_DSN=redis://score-storage-redis:6379
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
       score-storage-redis:
         condition: service_healthy
@@ -215,7 +206,7 @@ services:
       - pigeon
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - LISTEN=:80
       - AUTHORIZER_PUBLIC_URL=${PUBLIC_URL}/authorizer
       - KNEU_CLIENT_ID=${KNEU_CLIENT_ID}
@@ -224,7 +215,7 @@ services:
       - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - AUTH_STATE_LIFETIME=${AUTH_STATE_LIFETIME}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
   ### START section - telegram app ###
   telegram-app-redis:
@@ -234,6 +225,7 @@ services:
       - telegram-app-redis:/data
     networks:
       - pigeon
+    command: redis-server --appendonly yes --appendfsync everysec --save "3600 100" --save "43200 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -248,7 +240,7 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       #      - INFISICAL_TOKEN=$INFISICAL_TOKEN
-      - KAFKA_HOST=kafka:9092
+      - KAFKA_HOST=redpanda:9092
       - REDIS_DSN=redis://telegram-app-redis:6379
       - SCORE_STORAGE_API_HOST=http://score-storage-api
       - AUTHORIZER_HOST=http://authorizer
@@ -258,7 +250,7 @@ services:
       - TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES=${TIMEFRAME_TO_COMBINE_REPEAT_SCORE_CHANGES}
       - WAITING_FOR_ANOTHER_SCORE_TIME=${WAITING_FOR_ANOTHER_SCORE_TIME}
     depends_on:
-      kafka:
+      redpanda:
         condition: service_healthy
       telegram-app-redis:
         condition: service_healthy
@@ -268,7 +260,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:1676d73b39297a938eb60f0894b44b264152a6a38074fa5de99d9bdc425deb65
+    image: victoriametrics/victoria-metrics@sha256:e724328a2b22bfbe7c193002cf2bf99fa78a06f1967f6de15b621f5fee621dbc
     restart: always
     networks:
       - pigeon
@@ -296,7 +288,7 @@ services:
     depends_on:
       gateway:
         condition: service_healthy
-      kafka:
+      redpanda:
         condition: service_healthy
       authorizer:
         condition: service_healthy
@@ -331,7 +323,7 @@ services:
         done
       ### END section - utilities ###
 volumes:
-  kafka_data:
+  redpanda_data:
     driver: local
   secondary-db-watcher-storage:
     driver: local
@@ -348,4 +340,4 @@ networks:
     driver: bridge
 # image digest for integration testing
 # ghcr.io/kneu-messenger-pigeon/dekanat-db-mock@sha256:0df501f4ddebecbf23ff9f869b6f6cac9fa09b616c6dd9cba5c9410846595ee1
-# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:7bf93981df8bf57d727b9d3d6fffacfdf54c24566c6c4e23bc1e46a38507fe3d
+# ghcr.io/kneu-messenger-pigeon/integration-testing@sha256:566f18ef2247b0778abe5969660e62d122abebf96ae7060b46fc6d9a304fd182
