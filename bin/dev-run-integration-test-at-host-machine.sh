@@ -4,7 +4,7 @@
 cd $(dirname -- "${BASH_SOURCE[0]}")/..
 
 DOCKER_COMPOSE="docker compose -f docker-compose.base.yml -f docker-compose.integration-test.yml \
--p pigeon-app-integration-test --profile kafka-ui-enabled \
+-p pigeon-app-integration-test --profile redpanda-ui-enabled \
 --env-file .env --env-file .env.integration-test-at-host"
 
 
