@@ -25,7 +25,7 @@ services:
 
   ### START section - kafka and related ##
   kafka:
-    image: bitnami/kafka:latest
+    image: public.ecr.aws/bitnami/kafka:latest
     restart: always
     networks:
       - pigeon
