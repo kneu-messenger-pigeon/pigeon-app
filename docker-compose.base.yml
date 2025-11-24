@@ -177,7 +177,7 @@ services:
       --appendonly yes
       --appendfsync everysec
       --save "3600 1000"
-      --save "43200 1"
+      --save "86400 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -246,7 +246,7 @@ services:
       --appendonly yes
       --appendfsync everysec
       --save "3600 100"
-      --save "43200 1"
+      --save "86400 1"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 15s
@@ -321,6 +321,8 @@ services:
   rclone:
     image: rclone/rclone:1.64.0
     restart: always
+    networks:
+      - pigeon
     volumes:
       - type: volume
         source: telegram-app-redis
@@ -343,9 +345,13 @@ services:
     entrypoint: ["sh", "-c"]
     command:
       - |
+        which redis-cli || apk add --no-cache redis;
         echo "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE_CONTENTS}" > "$${RCLONE_CONFIG_GDRIVE_SERVICE_ACCOUNT_FILE}";
         while true; do
-          rclone copy -v . gdrive:
+          redis-cli -h telegram-app-redis BGSAVE
+          redis-cli -h score-storage-redis BGSAVE
+          sleep 10
+          rclone copy -v . gdrive: --exclude="*.incr.aof"
           wget --no-verbose --tries=3 --spider "${HEALTHCHECK_BACKUP_PING_URL}/$?"
           sleep 12h
         done
