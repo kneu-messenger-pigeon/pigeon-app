@@ -26,6 +26,7 @@ services:
   ### START section - kafka and related ##
   redpanda:
     image: redpandadata/redpanda:latest
+    restart: always
     command:
       - redpanda
       - start
@@ -66,6 +67,7 @@ services:
     image: redpandadata/console:latest
     environment:
       - KAFKA_BROKERS=redpanda:9092
+    restart: always
     ports:
       - "${LISTEN_KAFKA_UI:-127.0.0.1:8892}:8080"
     depends_on:
