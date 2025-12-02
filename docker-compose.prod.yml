@@ -23,6 +23,7 @@ services:
   ### START section - kafka and related ##
   redpanda:
     image: redpandadata/redpanda@sha256:5e6ef104f48f430c25b5ddf1e1bef83394086d51ad6e752b78d10a018f74833d
+    restart: always
     command:
       - redpanda
       - start
@@ -58,9 +59,10 @@ services:
       redpanda:
         condition: service_started
   redpanda-console:
-    image: redpandadata/console@sha256:8f171b3987b63c0ff6cf61e181ee3a92f931d10af6b39453c196acb60efdbd7d
+    image: redpandadata/console@sha256:fe02ab5fa821f06add70c67dcfac85a727c6775e67f2bf3e3232ba4f69ae5cf1
     environment:
       - KAFKA_BROKERS=redpanda:9092
+    restart: always
     ports:
       - "${LISTEN_KAFKA_UI:-127.0.0.1:8892}:8080"
     depends_on:
@@ -257,7 +259,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:e724328a2b22bfbe7c193002cf2bf99fa78a06f1967f6de15b621f5fee621dbc
+    image: victoriametrics/victoria-metrics@sha256:97448e1cc7751c27d068dd8d1a1a2a3e0c1bd50c4a160d444eb0566716b20eb4
     restart: always
     networks:
       - pigeon
