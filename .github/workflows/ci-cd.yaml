@@ -5,6 +5,7 @@ on:
     branches: ['main']
     paths-ignore:
       - docker-compose.prod.yml
+      - docs/**
       - .github/**
       - README.md
 
