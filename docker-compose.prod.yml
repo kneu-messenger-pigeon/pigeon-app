@@ -22,7 +22,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   redpanda:
-    image: redpandadata/redpanda@v26.2.1
+    image: redpandadata/redpanda:v26.2.1
     restart: always
     command:
       - redpanda
