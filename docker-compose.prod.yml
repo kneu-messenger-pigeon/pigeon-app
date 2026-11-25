@@ -22,7 +22,7 @@ services:
         condition: service_started
   ### START section - kafka and related ##
   redpanda:
-    image: redpandadata/redpanda@sha256:5e6ef104f48f430c25b5ddf1e1bef83394086d51ad6e752b78d10a018f74833d
+    image: redpandadata/redpanda@sha256:260532f70fd840bf2159106bd4ef900f199c1f5ca2a23cb362642320513b90f5
     restart: always
     command:
       - redpanda
@@ -59,7 +59,7 @@ services:
       redpanda:
         condition: service_started
   redpanda-console:
-    image: redpandadata/console@sha256:fe02ab5fa821f06add70c67dcfac85a727c6775e67f2bf3e3232ba4f69ae5cf1
+    image: redpandadata/console@sha256:aa055a971965606f89c00cc2367e38c95f93f0cb3a4ff96701cbb117af8e23f8
     environment:
       - KAFKA_BROKERS=redpanda:9092
     restart: always
@@ -139,7 +139,7 @@ services:
   ## Fake line to catch by `build-combined-readme.sh` and put into README.md Microservices
   ## image: ghcr.io/kneu-messenger-pigeon/realtime-capture:main
   realtime-importer:
-    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:fa72f97b85b2d104cc9349e0135dab72d597027e88f97f3ab4184304a6b58c18
+    image: ghcr.io/kneu-messenger-pigeon/realtime-importer@sha256:f5886dc1aa6c9f332cb615452ac7a168a52c427831e780402f23a58de84cfe23
     restart: always
     networks:
       - pigeon
@@ -259,7 +259,7 @@ services:
 
   ### START section - utilities ###
   victoria-metrics:
-    image: victoriametrics/victoria-metrics@sha256:97448e1cc7751c27d068dd8d1a1a2a3e0c1bd50c4a160d444eb0566716b20eb4
+    image: victoriametrics/victoria-metrics@sha256:322a7a92fdcc269280e9c38af94c83bc76827a31b792acbc60e44394e7f29c20
     restart: always
     networks:
       - pigeon
