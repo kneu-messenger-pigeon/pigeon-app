@@ -10,6 +10,11 @@ on:
       - README.md
 
   workflow_dispatch:
+    inputs:
+      force_commit_after_failed_tests:
+        description: 'Commit docker-compose.prod.yml even if integration-test fails'
+        type: boolean
+        default: false
 
   repository_dispatch:
     types:
@@ -50,7 +55,7 @@ jobs:
 
   integration-test:
     needs: make-docker-compose-prod
-    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+    if: ${{ needs.make-docker-compose-prod.outputs.change_detected == '1' }}
     uses: ./.github/workflows/integration-test.yaml
     secrets: inherit
 
@@ -63,7 +68,13 @@ jobs:
     concurrency:
       group: git-commit
       cancel-in-progress: false
-    if: ${{ needs.make-docker-compose-prod.outputs.change_detected }}
+    if: >-
+      always() &&
+      needs.make-docker-compose-prod.outputs.change_detected == '1' &&
+      (
+        needs.integration-test.result == 'success' ||
+        (github.event_name == 'workflow_dispatch' && inputs.force_commit_after_failed_tests == true)
+      )
     steps:
       - uses: actions/checkout@v4
         with:
